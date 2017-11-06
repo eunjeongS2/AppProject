@@ -1,6 +1,7 @@
 package kr.ac.ajou.jinaeunjeongbus;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog.show(transaction, AddAlarmDialogFragment.TAG);
                 break;
             case R.id.menu_search:
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
                 break;
             default:
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">버스왕</string>
+    <string name="app_name"></string>
     <string name="search">검색</string>
     <string name="add">추가</string>
 </resources>
