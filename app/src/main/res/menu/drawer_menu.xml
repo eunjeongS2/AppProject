@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item-->
+            <!--android:id="@+id/nav_notice"-->
+            <!--android:icon="@drawable/nav_noti"-->
+            <!--android:title="Notice"/>-->
+    <!--<item-->
+            <!--android:id="@+id/nav_board"-->
+            <!--android:icon="@drawable/nav_board"-->
+            <!--android:title="Board"/>-->
+    <!--<item-->
+            <!--android:id="@+id/nav_lecture"-->
+            <!--android:icon="@drawable/nav_lecture"-->
+            <!--android:title="Lecture"/>-->
+    <!--<item-->
+            <!--android:id="@+id/nav_info"-->
+            <!--android:icon="@drawable/nav_info"-->
+            <!--android:title="Info"/>-->
+    <!--<item-->
+            <!--android:id="@+id/nav_setting"-->
+            <!--android:icon="@drawable/nav_setting"-->
+            <!--android:title="Settings"/>-->
+
+</menu>
