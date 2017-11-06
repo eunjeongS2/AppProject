@@ -2,4 +2,7 @@
     <string name="app_name"></string>
     <string name="search">검색</string>
     <string name="add">추가</string>
+    <string name="hint_bus">버스 검색</string>
+    <string name="hint_bus_stop">정류장, ID 검색</string>
+    <string name="no_search_query">검색어를 입력해 주세요</string>
 </resources>

@@ -1,36 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/search_root"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/busking_toolbar"
+        <ImageView
+            android:id="@+id/search_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/busking_back_default" />
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:background="@color/colorPrimaryDark">
+            android:layout_toEndOf="@id/search_back_button"
+            android:background="#eee"
+            android:layout_margin="10dp">
 
-        </android.support.v7.widget.Toolbar>
+            <EditText
+                android:id="@+id/search_query"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:maxLines="1"
+                android:imeOptions="actionSearch"
+                android:background="#eee" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/search_tab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/busking_toolbar"
-            android:background="@color/colorPrimary"
-            android:elevation="6dp" />
+        </android.support.v7.widget.CardView>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/tab_page"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/search_tab" />
+
     </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/search_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="6dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tab_page"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/search_tab" />
 
 </LinearLayout>

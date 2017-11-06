@@ -19,11 +19,12 @@ public class TabPageAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                TabFragment1 tabFragment1 = new TabFragment1();
-                return tabFragment1;
+                BusSearchTabFragment busSearchTabFragment = new BusSearchTabFragment();
+                busSearchTabFragment.setSearchModel(new SearchModel(busSearchTabFragment));
+                return busSearchTabFragment;
             case 1:
-                TabFragment2 tabFragment2 = new TabFragment2();
-                return tabFragment2;
+                BusStopSearchTabFragment busStopSearchTabFragment = new BusStopSearchTabFragment();
+                return busStopSearchTabFragment;
 
             default:
                 return null;
