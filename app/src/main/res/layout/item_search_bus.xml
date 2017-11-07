@@ -29,14 +29,6 @@
         android:textColor="@android:color/darker_gray"
         tools:text="경기도 일반버스"/>
 
-    <CheckBox
-        android:id="@+id/bus_alarm_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="15dp"
-        android:background="@drawable/bus_alarm_check_button"
-        android:button="@null"/>
+
 
 </RelativeLayout>

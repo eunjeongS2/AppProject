@@ -43,7 +43,7 @@ public class BusAlarmFragment extends Fragment implements OnAlarmListener {
     private void setUpRecyclerView() {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         alarmListView.setLayoutManager(manager);
-        alarmListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+//        alarmListView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
         recyclerAdapter = new AlarmRecyclerAdapter();
         alarmListView.setAdapter(recyclerAdapter);
