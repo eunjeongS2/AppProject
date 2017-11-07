@@ -120,32 +120,25 @@
                 android:textSize="16sp"
                 android:text="정류장"/>
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:layout_marginBottom="5dp"
-                android:text="센트럴하이츠아파트"/>
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="센트럴하이츠아파트" />
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:layout_marginBottom="5dp"
-                android:text="벽산아파트후문"/>
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="벽산아파트후문" />
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:layout_marginBottom="5dp"
-                android:text="그대가센트럴파크아파트"/>
+
+
+        <CheckBox
+            android:id="@+id/checkBox4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="그대가센트럴파크아파트" />
 
     </LinearLayout>
 
@@ -170,12 +163,31 @@
                 android:text="알람시간"/>
 
         <TimePicker
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:timePickerMode="spinner"
-                android:theme="@style/AppTheme.Picker"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/timePicker"/>
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="79dp"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/AppTheme.Picker"
+            android:timePickerMode="spinner" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="ㅣ"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <TimePicker
+            android:id="@+id/timePicker3"
+            android:layout_width="match_parent"
+            android:layout_height="79dp"
+            android:layout_gravity="center_horizontal"
+            android:theme="@style/AppTheme.Picker"
+            android:timePickerMode="spinner" />
+
 
     </LinearLayout>
 
