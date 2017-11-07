@@ -7,9 +7,6 @@ import java.util.List;
 
 import kr.ac.ajou.jinaeunjeongbus.alarm.Bus;
 
-/**
- * Created by ijina on 2017. 11. 6..
- */
 
 public class SearchModel {
 

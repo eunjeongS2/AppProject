@@ -6,9 +6,6 @@ import kr.ac.ajou.jinaeunjeongbus.alarm.Bus;
 import kr.ac.ajou.jinaeunjeongbus.base.AbstractRecyclerAdapter;
 import kr.ac.ajou.jinaeunjeongbus.base.AbstractViewHolder;
 
-/**
- * Created by ijina on 2017. 11. 6..
- */
 
 public class BusSearchResultAdapter extends AbstractRecyclerAdapter<Bus> {
 

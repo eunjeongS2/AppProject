@@ -1,17 +1,13 @@
 package kr.ac.ajou.jinaeunjeongbus;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import kr.ac.ajou.jinaeunjeongbus.search.BusSearchTabFragment;
 import kr.ac.ajou.jinaeunjeongbus.search.TabPageAdapter;
 
 

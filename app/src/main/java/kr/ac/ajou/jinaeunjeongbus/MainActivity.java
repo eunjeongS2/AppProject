@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        startActivity(new Intent(this, Splash.class));
+
         toolbar = findViewById(R.id.busking_toolbar);
 
         FragmentManager fm = getSupportFragmentManager();
