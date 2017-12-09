@@ -9,9 +9,17 @@ public class TabPageAdapter extends FragmentStatePagerAdapter {
 
     private int tabCount;
 
+    private BusSearchTabFragment busSearchTabFragment;
+    private BusStopSearchTabFragment busStopSearchTabFragment;
+
+
     public TabPageAdapter(FragmentManager fm, int tabCount) {
         super(fm);
         this.tabCount = tabCount;
+        busSearchTabFragment = new BusSearchTabFragment();
+        busStopSearchTabFragment = new BusStopSearchTabFragment();
+        busSearchTabFragment.setSearchModel(new SearchModel(busSearchTabFragment));
+
     }
 
     @Override
@@ -19,11 +27,8 @@ public class TabPageAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                BusSearchTabFragment busSearchTabFragment = new BusSearchTabFragment();
-                busSearchTabFragment.setSearchModel(new SearchModel(busSearchTabFragment));
                 return busSearchTabFragment;
             case 1:
-                BusStopSearchTabFragment busStopSearchTabFragment = new BusStopSearchTabFragment();
                 return busStopSearchTabFragment;
 
             default:

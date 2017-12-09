@@ -32,7 +32,7 @@ class AlarmViewHolder extends AbstractViewHolder<Alarm> {
         destination.setText(item.getDestination());
         departure.setText(item.getDeparture());
         busStop.setText(item.getBusStop());
-        time.setText(item.getStartTime() + " - " + item.getEndTime());
+        time.setText(item.getDestinationTime());
 
         StringBuilder buses = new StringBuilder();
         for(Bus bus : item.getBusList()) {

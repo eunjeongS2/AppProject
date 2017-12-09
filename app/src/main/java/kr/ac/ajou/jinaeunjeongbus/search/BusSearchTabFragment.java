@@ -13,11 +13,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import kr.ac.ajou.jinaeunjeongbus.dataParse.OnBusFinderListener;
 import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.alarm.Bus;
 
 
-public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckListener, OnBusLoadListener {
+public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckListener, OnBusLoadListener, OnBusFinderListener {
 
     private static final String TAG = "BusSearchTabFragment";
 
@@ -37,10 +38,11 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
         emptySearchResultText.setVisibility(View.GONE);
 
         setUpSearchListView();
+        Log.d(TAG, "onCreateView: ");
+
 
         searchModel.fetchBusList();
 
-        Log.d(TAG, "onCreateView: ");
 
         return view;
 
@@ -68,6 +70,9 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
 
     public void query(String message) {
         searchModel.query(message);
+        emptySearchResultText.setVisibility(View.GONE);
+
+
     }
 
 
@@ -85,6 +90,8 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
 
         adapter.setItems(busList);
         adapter.notifyDataSetChanged();
+
+
     }
 
     @Override
@@ -97,5 +104,15 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
 
         adapter.setItems(searchResult);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBusFinderStart() {
+
+    }
+
+    @Override
+    public void onBusFinderSuccess(List<Bus> busList) {
+
     }
 }

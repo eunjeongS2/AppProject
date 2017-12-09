@@ -7,18 +7,25 @@ public final class Alarm {
     private String destination;
     private String departure;
     private String busStop;
-    private String startTime;
-    private String endTime;
+    private String destinationTime;
+    private String alarmTerm;
     private List<Bus> busList;
 
-    public Alarm(String destination, String departure, String busStop, String startTime, String endTime,
-        List<Bus> busList) {
+    public Alarm(String destination, String departure, String busStop, String destinationTime, String alarmTerm,
+                 List<Bus> busList) {
         this.destination = destination;
         this.departure = departure;
         this.busStop = busStop;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.destinationTime = destinationTime;
+        this.alarmTerm = alarmTerm;
         this.busList = busList;
+    }
+
+    public Alarm(String destination, String departure, String destinationTime, String alarmTerm) {
+        this.destination = destination;
+        this.departure = departure;
+        this.destinationTime = destinationTime;
+        this.alarmTerm = alarmTerm;
     }
 
     public String getDestination() {
@@ -33,15 +40,20 @@ public final class Alarm {
         return busStop;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public String getDestinationTime() {
+        return destinationTime;
     }
 
-    public String getEndTime() {
-        return endTime;
+    public String getAlarmTerm() {
+        return alarmTerm;
     }
 
     public List<Bus> getBusList() {
         return busList;
+    }
+
+    //API정보 받아오기
+    public void setBusList(List<Bus> busList) {
+        this.busList = busList;
     }
 }

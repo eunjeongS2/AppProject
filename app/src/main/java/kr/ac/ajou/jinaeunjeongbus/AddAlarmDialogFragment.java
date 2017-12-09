@@ -28,7 +28,11 @@ public class AddAlarmDialogFragment extends DialogFragment {
         checkButton = view.findViewById(R.id.check_button);
 
         closeButton.setOnClickListener(v -> getFragmentManager().popBackStack());
-        checkButton.setOnClickListener(v -> getFragmentManager().popBackStack());
+//        checkButton.setOnClickListener(v -> getFragmentManager().popBackStack());
+        checkButton.setOnClickListener(view1 -> {
+            System.out.println("ffsssss");
+            getFragmentManager().popBackStack();
+        });
 
         builder.setView(view);
         AlertDialog alertDialog = builder.create();

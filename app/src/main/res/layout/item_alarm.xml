@@ -147,7 +147,7 @@
                 android:orientation="horizontal">
 
                 <CheckBox
-                    android:id="@+id/bus_alarm_check"
+                    android:id="@+id/item_bus_alarm_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

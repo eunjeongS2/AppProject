@@ -2,9 +2,11 @@ package kr.ac.ajou.jinaeunjeongbus.search;
 
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
@@ -19,6 +21,7 @@ class BusSearchResultViewHolder extends AbstractViewHolder<Bus> {
     private TextView busNumber;
     private TextView busDescription;
     private CheckBox alarmCheckButton;
+    private RelativeLayout relativeLayout;
 
     public BusSearchResultViewHolder(ViewGroup parent, OnBusAlarmCheckListener onBusAlarmCheckListener) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_bus, parent, false));
@@ -28,6 +31,8 @@ class BusSearchResultViewHolder extends AbstractViewHolder<Bus> {
         busNumber = itemView.findViewById(R.id.bus_number);
         busDescription = itemView.findViewById(R.id.bus_description);
         alarmCheckButton = itemView.findViewById(R.id.bus_alarm_check);
+        relativeLayout = itemView.findViewById(R.id.relative);
+
     }
 
     @Override
@@ -43,5 +48,7 @@ class BusSearchResultViewHolder extends AbstractViewHolder<Bus> {
                 }
             }
         });
+
+
     }
 }

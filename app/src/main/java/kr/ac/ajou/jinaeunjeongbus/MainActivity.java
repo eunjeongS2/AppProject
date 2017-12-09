@@ -24,8 +24,6 @@ import kr.ac.ajou.jinaeunjeongbus.alarm.BusAlarmFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         startActivity(new Intent(this, Splash.class));
 
-        toolbar = findViewById(R.id.busking_toolbar);
+        Toolbar toolbar = findViewById(R.id.busking_toolbar);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment mediaNoticeFragment = new BusAlarmFragment();
