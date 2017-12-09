@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/text_no_search_bus_stop_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="정류장 검색 리스트가 존재하지 않습니다"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_bus_stop_result_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"/>
 
-</LinearLayout>
+
+</RelativeLayout>

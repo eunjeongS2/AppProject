@@ -2,10 +2,8 @@ package kr.ac.ajou.jinaeunjeongbus.search;
 
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,7 +29,7 @@ class BusSearchResultViewHolder extends AbstractViewHolder<Bus> {
         busNumber = itemView.findViewById(R.id.bus_number);
         busDescription = itemView.findViewById(R.id.bus_description);
         alarmCheckButton = itemView.findViewById(R.id.bus_alarm_check);
-        relativeLayout = itemView.findViewById(R.id.relative);
+        relativeLayout = itemView.findViewById(R.id.bus_relative);
 
     }
 

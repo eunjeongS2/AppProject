@@ -17,6 +17,12 @@ public class DownloadRawData extends AsyncTask<String, Void, Document> {
     private Document document;
     private OnBusIdFindListener onBusIdFindListener;
     private OnBusLocationFinder onBusLocationFinder;
+    private OnBusStopIdFindListener onBusStopIdFindListener;
+
+    public DownloadRawData(OnBusStopIdFindListener onBusStopIdFindListener) {
+        this.onBusStopIdFindListener = onBusStopIdFindListener;
+
+    }
 
     public DownloadRawData(OnBusIdFindListener onBusIdFindListener) {
         this.onBusIdFindListener = onBusIdFindListener;
@@ -48,9 +54,10 @@ public class DownloadRawData extends AsyncTask<String, Void, Document> {
     protected void onPostExecute(Document document) {
         if(onBusIdFindListener!=null){
             onBusIdFindListener.parseXML(document);
-        }
-        if(onBusLocationFinder!=null){
+        }else if(onBusLocationFinder!=null){
             onBusLocationFinder.parseXML(document);
+        }else if(onBusStopIdFindListener!=null){
+            onBusStopIdFindListener.parseXML(document);
         }
     }
 }

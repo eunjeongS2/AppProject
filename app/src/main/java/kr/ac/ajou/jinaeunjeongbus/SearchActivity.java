@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import kr.ac.ajou.jinaeunjeongbus.search.BusSearchTabFragment;
+import kr.ac.ajou.jinaeunjeongbus.search.BusStopSearchTabFragment;
 import kr.ac.ajou.jinaeunjeongbus.search.TabPageAdapter;
 
 
@@ -56,7 +57,9 @@ public class SearchActivity extends AppCompatActivity {
                         if (tabLayout.getSelectedTabPosition() == 0) {
                             BusSearchTabFragment fragment = (BusSearchTabFragment) pageAdapter.getItem(tabLayout.getSelectedTabPosition());
                             fragment.query(message);
-
+                        }else if (tabLayout.getSelectedTabPosition() == 1){
+                            BusStopSearchTabFragment fragment = (BusStopSearchTabFragment) pageAdapter.getItem(tabLayout.getSelectedTabPosition());
+                            fragment.query(message);
                         }
                     } else {
                         Snackbar.make(rootView, getString(R.string.no_search_query), Snackbar.LENGTH_SHORT).show();

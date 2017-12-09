@@ -16,6 +16,7 @@ import java.util.List;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.alarm.Bus;
+import kr.ac.ajou.jinaeunjeongbus.alarm.BusStop;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusIdFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusLocationFinder;
 
@@ -35,7 +36,7 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
         View view = inflater.inflate(R.layout.bus_search_tab_fragment, container, false);
 
         busSearchListView = view.findViewById(R.id.search_bus_result_list_view);
-        emptySearchResultText = view.findViewById(R.id.text_no_search_result);
+        emptySearchResultText = view.findViewById(R.id.text_no_search_bus_result);
 
         emptySearchResultText.setVisibility(View.GONE);
 
@@ -74,7 +75,7 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
 
         try {
             new BusIdFinder(this, message).execute();
-            new BusLocationFinder(this, "200000112", "203000122").execute();
+            new BusLocationFinder("200000112", "203000122").execute();
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -88,6 +89,11 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
 
     @Override
     public void onBusAlarmChecked(Bus bus, int position) {
+
+    }
+
+    @Override
+    public void onBusStopAlarmChecked(BusStop busStop, int position) {
 
     }
 

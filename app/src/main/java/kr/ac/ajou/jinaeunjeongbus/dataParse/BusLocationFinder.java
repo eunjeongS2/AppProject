@@ -8,10 +8,8 @@ import org.w3c.dom.NodeList;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import kr.ac.ajou.jinaeunjeongbus.search.OnBusLoadListener;
 
-
-public class BusLocationFinder extends BusFinder implements OnBusLocationFinder{
+public class BusLocationFinder extends Finder implements OnBusLocationFinder{
     private String busId;
     private String busStopId;
 
@@ -19,8 +17,7 @@ public class BusLocationFinder extends BusFinder implements OnBusLocationFinder{
     private static final String SEOUL_API_KEY = "DD0pwxcJt7QW0EtFlsbEwQ8w2sWJMfADc%2FMBBK1Ju0RQgbWrVRIb4jDTGAzAI0p3kS1KBYwHpULqXZy%2FX%2Fe7RA%3D%3D";
 
 
-    public BusLocationFinder(OnBusLoadListener onBusLoadListener, String busId, String busStopId) {
-        super(onBusLoadListener);
+    public BusLocationFinder(String busId, String busStopId) {
         this.busId = "200000112";
         this.busStopId = "120000059";
     }
@@ -53,8 +50,6 @@ public class BusLocationFinder extends BusFinder implements OnBusLocationFinder{
                 System.out.println(arrmsg1Node.item(0).getChildNodes().item(0).getNodeValue());
 
             }
-
-
 
         }
 

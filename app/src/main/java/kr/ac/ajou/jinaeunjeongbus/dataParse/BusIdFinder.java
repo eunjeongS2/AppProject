@@ -14,16 +14,18 @@ import java.util.List;
 import kr.ac.ajou.jinaeunjeongbus.alarm.Bus;
 import kr.ac.ajou.jinaeunjeongbus.search.OnBusLoadListener;
 
-public class BusIdFinder extends BusFinder implements OnBusIdFindListener{
+public class BusIdFinder extends Finder implements OnBusIdFindListener{
     private static final String SEARCH_ID_URL = "http://ws.bus.go.kr/api/rest/busRouteInfo/getBusRouteList?ServiceKey=";
     private static final String SEOUL_API_KEY = "DD0pwxcJt7QW0EtFlsbEwQ8w2sWJMfADc%2FMBBK1Ju0RQgbWrVRIb4jDTGAzAI0p3kS1KBYwHpULqXZy%2FX%2Fe7RA%3D%3D";
 
     private String searchBusNumber;
 
+    private OnBusLoadListener onBusLoadListener;
+
 
     public BusIdFinder(OnBusLoadListener onBusLoadListener, String searchBusNumber) {
-        super(onBusLoadListener);
         this.searchBusNumber = searchBusNumber;
+        this.onBusLoadListener = onBusLoadListener;
     }
 
     @Override
@@ -74,7 +76,7 @@ public class BusIdFinder extends BusFinder implements OnBusIdFindListener{
 
         }
 
-        getOnBusLoadListener().onSearchComplete(buses);
+        onBusLoadListener.onSearchComplete(buses);
     }
 }
 

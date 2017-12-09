@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bus_relative">
+    android:id="@+id/bus_stop_relative">
 
     <TextView
-        android:id="@+id/bus_number"
+        android:id="@+id/bus_stop_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -16,22 +16,22 @@
         android:layout_marginStart="15dp"
         android:layout_marginBottom="5dp"
         android:textStyle="bold"
-        tools:text="720-2"/>
+        tools:text="사당역"/>
 
     <TextView
-        android:id="@+id/bus_description"
+        android:id="@+id/bus_stop_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:layout_marginStart="15dp"
         android:layout_marginBottom="15dp"
-        android:layout_below="@id/bus_number"
+        android:layout_below="@id/bus_stop_name"
         android:textSize="14sp"
         android:textColor="@android:color/darker_gray"
-        tools:text="경기도 일반버스"/>
+        tools:text="1110111"/>
 
     <CheckBox
-        android:id="@+id/bus_alarm_check"
+        android:id="@+id/bus_stop_alarm_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
