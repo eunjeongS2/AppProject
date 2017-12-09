@@ -40,12 +40,9 @@ class BusSearchResultViewHolder extends AbstractViewHolder<Bus> {
         busNumber.setText(item.getNumber());
         busDescription.setText(item.getDescription());
 
-        alarmCheckButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(onBusAlarmCheckListener != null) {
-                    onBusAlarmCheckListener.onBusAlarmChecked(item, position);
-                }
+        alarmCheckButton.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(onBusAlarmCheckListener != null) {
+                onBusAlarmCheckListener.onBusAlarmChecked(item, position);
             }
         });
 

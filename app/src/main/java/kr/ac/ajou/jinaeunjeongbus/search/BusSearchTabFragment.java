@@ -13,12 +13,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import kr.ac.ajou.jinaeunjeongbus.dataParse.OnBusFinderListener;
 import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.alarm.Bus;
 
 
-public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckListener, OnBusLoadListener, OnBusFinderListener {
+public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckListener, OnBusLoadListener {
 
     private static final String TAG = "BusSearchTabFragment";
 
@@ -82,6 +81,11 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
     }
 
     @Override
+    public void onFindStart() {
+
+    }
+
+    @Override
     public void onLoad(List<Bus> busList) {
         if(busList.size() == 0) {
             emptySearchResultText.setVisibility(View.VISIBLE);
@@ -106,13 +110,4 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onBusFinderStart() {
-
-    }
-
-    @Override
-    public void onBusFinderSuccess(List<Bus> busList) {
-
-    }
 }
