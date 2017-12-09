@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="최근 정류장 검색 리스트가 존재하지 않습니다"
+        android:text="정류장 검색 리스트가 존재하지 않습니다"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
 

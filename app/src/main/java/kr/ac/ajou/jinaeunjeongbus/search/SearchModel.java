@@ -39,11 +39,11 @@ public class SearchModel {
     public void query(String message) {
         List<Bus> searchResult = new ArrayList<>();
 
-        try {
-            new BusIdFinder(onBusLoadListener, message).execute();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            new BusIdFinder(onBusLoadListener, message).execute();
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 
 //        for (Bus bus : busList) {
 //            if (bus.getNumber().equals(message)) {
@@ -52,8 +52,9 @@ public class SearchModel {
 //        }
 
 
-        if(onBusLoadListener != null) {
-            onBusLoadListener.onSearchComplete(searchResult);
-        }
+//        if(onBusLoadListener != null) {
+//            System.out.println("query");
+//            onBusLoadListener.onSearchComplete(searchResult);
+//        }
     }
 }

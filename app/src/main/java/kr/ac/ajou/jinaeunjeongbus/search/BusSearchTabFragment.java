@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.alarm.Bus;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.BusIdFinder;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.BusLocationFinder;
 
 
 public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckListener, OnBusLoadListener {
@@ -24,7 +27,7 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
     private RecyclerView busSearchListView;
 
     private TextView emptySearchResultText;
-    private SearchModel searchModel;
+//    private SearchModel searchModel;
     private BusSearchResultAdapter adapter;
 
     @Override
@@ -40,7 +43,7 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
         Log.d(TAG, "onCreateView: ");
 
 
-        searchModel.fetchBusList();
+//        searchModel.fetchBusList();
 
 
         return view;
@@ -53,9 +56,9 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
         Log.d(TAG, "onDestroyView: ");
     }
 
-    public void setSearchModel(SearchModel searchModel) {
-        this.searchModel = searchModel;
-    }
+//    public void setSearchModel(SearchModel searchModel) {
+//        this.searchModel = searchModel;
+//    }
 
     private void setUpSearchListView() {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -68,7 +71,15 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
     }
 
     public void query(String message) {
-        searchModel.query(message);
+
+        try {
+            new BusIdFinder(this, message).execute();
+            new BusLocationFinder(this, "200000112", "203000122").execute();
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+//        searchModel.query(message);
         emptySearchResultText.setVisibility(View.GONE);
 
 
@@ -77,11 +88,6 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
 
     @Override
     public void onBusAlarmChecked(Bus bus, int position) {
-
-    }
-
-    @Override
-    public void onFindStart() {
 
     }
 

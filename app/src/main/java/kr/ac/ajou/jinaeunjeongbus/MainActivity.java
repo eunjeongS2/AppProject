@@ -21,6 +21,7 @@ import android.support.design.widget.NavigationView;
 
 
 import kr.ac.ajou.jinaeunjeongbus.alarm.BusAlarmFragment;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.BusLocationFinder;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_search:
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
+
                 break;
             default:
 
