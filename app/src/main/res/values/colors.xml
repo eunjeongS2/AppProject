@@ -3,7 +3,9 @@
     <color name="colorPrimary">#00bfa5</color>
     <color name="primaryLightColor">#5df2d6</color>
     <color name="colorPrimaryDark">#000</color>
-    <color name="colorAccent">#aa00ff</color>
+    <color name="colorAccent">#999999</color>
     <color name="secondaryLightColor">#e254ff</color>
     <color name="secondaryDarkColor">#7200ca</color>
+    <color name="colorDarkGray">#666666</color>
+
 </resources>

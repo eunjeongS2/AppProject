@@ -41,8 +41,6 @@ public class DownloadRawData extends AsyncTask<String, Void, Document> {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             document = db.parse(new InputSource(currentUrl.openStream()));
-//            System.out.println("TEST2" +document.getDocumentURI());
-
             document.getDocumentElement().normalize();
         }catch (Exception e){
             e.printStackTrace();
