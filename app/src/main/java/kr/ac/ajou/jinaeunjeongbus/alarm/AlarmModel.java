@@ -28,7 +28,7 @@ public class AlarmModel {
         busList.add(new Bus("92-1", "경기도 일반버스"));
         busList.add(new Bus("720-1", "경기도 일반버스"));
         alarmList.add(new Alarm("아주대학교", "영통 sk뷰아파트 1101동 1004호", "센트럴하이츠아파트 정류장",
-            "11:00", "11:40", busList));
+            "11:00", "11:40", busList, true));
 
         List<Bus> busList2 = new ArrayList<>();
         busList2.add(new Bus("3", "경기도 일반버스"));
@@ -38,7 +38,7 @@ public class AlarmModel {
         busList2.add(new Bus("92-1", "경기도 일반버스"));
         busList2.add(new Bus("720-1","경기도 일반버스"));
         alarmList.add(new Alarm("아주대학교", "영통 sk뷰아파트 1101동 1004호", "센트럴하이츠아파트 정류장",
-            "12:30", "13:10", busList2));
+            "12:30", "13:10", busList2, true));
 
         List<Bus> busList3 = new ArrayList<>();
         busList3.add(new Bus("720-2","경기도 일반버스"));
@@ -46,13 +46,13 @@ public class AlarmModel {
         busList3.add(new Bus("13-4","경기도 일반버스"));
         busList3.add(new Bus("9-2","경기도 일반버스"));
         alarmList.add(new Alarm("수원역", "아주대학교 산학원", "아주대, 아주대병원 입구, 한국자산관리공사",
-            "18:00", "18:30", busList3));
+            "18:00", "18:30", busList3, true));
 
         List<Bus> busList4 = new ArrayList<>();
         busList4.add(new Bus("10-5","경기도 일반버스"));
         busList4.add(new Bus("37","경기도 일반버스"));
         alarmList.add(new Alarm("한국민속촌", "아주대학교 팔달관", "아주대입구",
-            "20:00", "20:30", busList4));
+            "20:00", "20:30", busList4, true));
     }
 
     public void fetchAlarm() {

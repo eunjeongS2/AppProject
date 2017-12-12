@@ -19,9 +19,7 @@ public class BusIdFinder extends Finder implements OnBusIdFindListener{
     private static final String SEOUL_API_KEY = "DD0pwxcJt7QW0EtFlsbEwQ8w2sWJMfADc%2FMBBK1Ju0RQgbWrVRIb4jDTGAzAI0p3kS1KBYwHpULqXZy%2FX%2Fe7RA%3D%3D";
 
     private String searchBusNumber;
-
     private OnBusLoadListener onBusLoadListener;
-
 
     public BusIdFinder(OnBusLoadListener onBusLoadListener, String searchBusNumber) {
         this.searchBusNumber = searchBusNumber;
@@ -68,7 +66,7 @@ public class BusIdFinder extends Finder implements OnBusIdFindListener{
             NodeList startBusStop = firstElement.getElementsByTagName("stStationNm");
             NodeList endBusStop = firstElement.getElementsByTagName("edStationNm");
 
-            bus.setDescription(startBusStop.item(0).getChildNodes().item(0).getNodeValue()+"<--->"+
+            bus.setDescription(startBusStop.item(0).getChildNodes().item(0).getNodeValue()+" <---> "+
             endBusStop.item(0).getChildNodes().item(0).getNodeValue());
 
 

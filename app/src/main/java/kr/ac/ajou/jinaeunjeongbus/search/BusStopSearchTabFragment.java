@@ -16,8 +16,6 @@ import java.util.List;
 import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.alarm.Bus;
 import kr.ac.ajou.jinaeunjeongbus.alarm.BusStop;
-import kr.ac.ajou.jinaeunjeongbus.dataParse.BusIdFinder;
-import kr.ac.ajou.jinaeunjeongbus.dataParse.BusLocationFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusStopFinder;
 
 public class BusStopSearchTabFragment extends Fragment implements OnBusStopLoadListener, OnBusAlarmCheckListener{

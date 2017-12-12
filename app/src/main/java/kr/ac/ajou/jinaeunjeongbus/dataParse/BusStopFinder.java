@@ -16,7 +16,7 @@ import kr.ac.ajou.jinaeunjeongbus.search.OnBusStopLoadListener;
 
 public class BusStopFinder extends Finder implements OnBusStopIdFindListener{
 
-    private static final String SEARCH_BUSSTOP_ID_URL = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByName?ServiceKey=";
+    private static final String SEARCH_BUS_STOP_ID_URL = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByName?ServiceKey=";
     private static final String SEOUL_API_KEY = "DD0pwxcJt7QW0EtFlsbEwQ8w2sWJMfADc%2FMBBK1Ju0RQgbWrVRIb4jDTGAzAI0p3kS1KBYwHpULqXZy%2FX%2Fe7RA%3D%3D";
 
 
@@ -25,7 +25,7 @@ public class BusStopFinder extends Finder implements OnBusStopIdFindListener{
 
     public BusStopFinder(OnBusStopLoadListener onBusStopLoadListener, String busStopName) {
         this.onBusStopLoadListener = onBusStopLoadListener;
-        this.busStopName = "사당";
+        this.busStopName = "사당역";
     }
 
     @Override
@@ -37,7 +37,7 @@ public class BusStopFinder extends Finder implements OnBusStopIdFindListener{
     public String createUrl() throws UnsupportedEncodingException {
         String urlSearchBusStopNumber = URLEncoder.encode(busStopName, "utf-8");
 
-        return SEARCH_BUSSTOP_ID_URL + SEOUL_API_KEY + "&stSrch=" + urlSearchBusStopNumber;
+        return SEARCH_BUS_STOP_ID_URL + SEOUL_API_KEY + "&stSrch=" + urlSearchBusStopNumber;
     }
 
     @Override

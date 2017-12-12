@@ -12,6 +12,8 @@ import java.net.URLEncoder;
 public class BusLocationFinder extends Finder implements OnBusLocationFinder{
     private String busId;
     private String busStopId;
+    private String destinationBusStopId;
+    private int requiredTime;
 
     private static final String SEARCH_LOCATION_URL = "http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?ServiceKey=";
     private static final String SEOUL_API_KEY = "DD0pwxcJt7QW0EtFlsbEwQ8w2sWJMfADc%2FMBBK1Ju0RQgbWrVRIb4jDTGAzAI0p3kS1KBYwHpULqXZy%2FX%2Fe7RA%3D%3D";
@@ -21,6 +23,13 @@ public class BusLocationFinder extends Finder implements OnBusLocationFinder{
         this.busId = "200000112";
         this.busStopId = "120000059";
     }
+
+    public BusLocationFinder(String busId, String busStopId, String destinationBusStopId) {
+        this.busId = "200000112";
+        this.busStopId = "120000059";
+        this.destinationBusStopId = destinationBusStopId;
+    }
+
 
     @Override
     public void execute() throws UnsupportedEncodingException {
@@ -50,8 +59,7 @@ public class BusLocationFinder extends Finder implements OnBusLocationFinder{
                 System.out.println(arrmsg1Node.item(0).getChildNodes().item(0).getNodeValue());
 
             }
-
         }
-
     }
+
 }
