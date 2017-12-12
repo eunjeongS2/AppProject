@@ -15,7 +15,7 @@ class AlarmViewHolder extends AbstractViewHolder<Alarm> {
     private TextView departure;
     private TextView busStop;
     private TextView time;
-    private TextView busList;
+    private TextView bus;
 
     public AlarmViewHolder(ViewGroup parent) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false));
@@ -24,20 +24,16 @@ class AlarmViewHolder extends AbstractViewHolder<Alarm> {
         departure = itemView.findViewById(R.id.alarm_departure);
         busStop = itemView.findViewById(R.id.alarm_bus_stop);
         time = itemView.findViewById(R.id.alarm_time);
-        busList = itemView.findViewById(R.id.alarm_bus_list);
+        bus = itemView.findViewById(R.id.alarm_bus_list);
     }
 
     @Override
     public void onBindView(@NonNull Alarm item, int position) {
-        destination.setText(item.getDestination());
-        departure.setText(item.getDeparture());
-        busStop.setText(item.getBusStop());
-        time.setText(item.getDestinationTime());
+        destination.setText(item.getDestinationPlace());
+        departure.setText(item.getDeparturePlace());
+        busStop.setText(item.getDepartureStop());
+        time.setText(item.getArriveTime());
+        bus.setText(item.getBusName());
 
-        StringBuilder buses = new StringBuilder();
-        for(Bus bus : item.getBusList()) {
-            buses.append(bus.getNumber()).append(" ");
-        }
-        busList.setText(buses.toString());
     }
 }

@@ -1,207 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent" android:layout_height="match_parent">
 
     <ImageView
-            android:id="@+id/close_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/busking_delete_default"/>
+        android:id="@+id/close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/busking_delete_default"/>
 
     <RelativeLayout
-            android:id="@+id/departure_container"
+        android:id="@+id/departure_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_below="@id/close_button"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_departure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:layout_below="@id/close_button"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:orientation="horizontal">
-
-        <TextView
-                android:id="@+id/text_departure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:text="출발지 : "/>
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:layout_toEndOf="@id/text_departure"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                tools:text="우리집"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:layout_alignParentEnd="true"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:text="검색"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-            android:id="@+id/destination_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_below="@id/departure_container"
-            android:layout_marginBottom="15dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:orientation="horizontal">
-
-        <TextView
-                android:id="@+id/text_destination"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:text="도착지 : "/>
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:layout_toEndOf="@id/text_destination"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                tools:text="우리집"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:layout_alignParentEnd="true"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:text="검색"/>
-
-    </RelativeLayout>
-
-    <LinearLayout
-            android:id="@+id/select_bus_stop_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/destination_container"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:orientation="vertical">
-
-        <TextView
-                android:id="@+id/text_bus_stop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:layout_marginBottom="10dp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:text="정류장"/>
-
-        <CheckBox
-            android:id="@+id/checkBox2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="센트럴하이츠아파트" />
-
-        <CheckBox
-            android:id="@+id/checkBox3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="벽산아파트후문" />
-
-
-
-        <CheckBox
-            android:id="@+id/checkBox4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="그대가센트럴파크아파트" />
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:id="@+id/time_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_below="@id/select_bus_stop_container" >
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:text="알람시간"/>
-
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:layout_width="match_parent"
-            android:layout_height="79dp"
-            android:layout_gravity="center_horizontal"
-            android:theme="@style/AppTheme.Picker"
-            android:timePickerMode="spinner" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="ㅣ"
-            android:textAlignment="center"
+            android:textSize="14sp"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:text="출발지 : "/>
+
+        <EditText
+            android:id="@+id/departure_search_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@id/text_departure"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:hint="출발지 검색"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_alignParentEnd="true"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="검색"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/destination_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_below="@id/departure_container"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:text="도착지 : "/>
+
+        <EditText
+            android:id="@+id/destination_search_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@id/text_destination"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:hint="도착지 검색"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_alignParentEnd="true"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="검색"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/departure_stop_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_below="@id/destination_container"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_departure_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:text="출발 정류소 : "/>
+
+        <EditText
+            android:id="@+id/departure_stop_search_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@id/text_departure_stop"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:hint="출발 정류소 검색"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_alignParentEnd="true"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="검색"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/destination_stop_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_below="@id/departure_stop_container"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_destination_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:text="도착 정류소 : "/>
+
+        <EditText
+            android:id="@+id/destination_stop_search_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@id/text_destination_stop"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:hint="도착 정류소 검색"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_alignParentEnd="true"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="검색"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bus_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_below="@id/destination_stop_container">
+        <TextView
+            android:id="@+id/text_bus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:text="버스 : "/>
+
+        <EditText
+            android:id="@+id/bus_search_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_toEndOf="@id/text_bus"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:hint="버스"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/time_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_below="@id/bus_container" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:text="도착예정시간"/>
 
         <TimePicker
-            android:id="@+id/timePicker3"
+            android:id="@+id/destination_timePicker"
             android:layout_width="match_parent"
             android:layout_height="79dp"
             android:layout_gravity="center_horizontal"
             android:theme="@style/AppTheme.Picker"
             android:timePickerMode="spinner" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:text="알람주기"/>
+
+        <EditText
+            android:id="@+id/alarm_term_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="60"
+            android:inputType="number"
+            android:hint="00분"/>
 
     </LinearLayout>
 
     <Button
-            android:id="@+id/check_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/time_container"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="확인"/>
-
+        android:id="@+id/check_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/time_container"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="확인"/>
 
 </RelativeLayout>

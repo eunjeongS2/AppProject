@@ -1,12 +1,12 @@
 package kr.ac.ajou.jinaeunjeongbus.database;
 
 
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,62 +14,181 @@ import kr.ac.ajou.jinaeunjeongbus.alarm.Alarm;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private Context context;
+    private static final String DATABASE_NAME = "BUS_ALARM_2_DB";
+    private static final int DATABASE_VERSION = 1;
 
-    public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-        this.context = context;
+    public DBHelper(Context context) {
+        super(context, DATABASE_NAME,null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE ALARM_TABLE( _id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " DEPT TEXT, DEST TEXT, DEST_TIME TEXT, ALARM_TERM TEXT);");
-        System.out.println("테이블 생성");
+    public void onCreate(SQLiteDatabase db) {
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE "
+                + Alarm.TABLE+ "("
+                + Alarm.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + Alarm.KEY_DEPARTURE_NAME + " TEXT, "
+                + Alarm.KEY_DEPARTURE_STOP + " TEXT, "
+                + Alarm.KEY_DEPARTURE_NO + " TEXT, "
+                + Alarm.KEY_DEPARTURE_ID + " TEXT, "
+                + Alarm.KEY_DESTINATION_NAME + " TEXT, "
+                + Alarm.KEY_DESTINATION_STOP + " TEXT, "
+                + Alarm.KEY_BUS_NAME + " TEXT, "
+                + Alarm.KEY_BUS_ID + " TEXT, "
+                + Alarm.KEY_DESTINATION_TIME + " TEXT, "
+                + Alarm.KEY_ALARM_TERM + " TEXT, "
+                + Alarm.KEY_ALARM_ISON + " BOOL" + ")";
+
+        db.execSQL(CREATE_CONTACTS_TABLE);
+        System.out.println("데이터베이스 생성");
+    }
+
+    public void createAlarm(Alarm alarm){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(Alarm.KEY_DEPARTURE_NAME, alarm.getDeparturePlace());
+        values.put(Alarm.KEY_DEPARTURE_STOP, alarm.getDepartureStop());
+        values.put(Alarm.KEY_DEPARTURE_NO, alarm.getDepartureNo());
+        values.put(Alarm.KEY_DEPARTURE_ID, alarm.getDepartureId());
+        values.put(Alarm.KEY_DESTINATION_NAME, alarm.getDestinationPlace());
+        values.put(Alarm.KEY_DESTINATION_STOP, alarm.getDestinationStop());
+        values.put(Alarm.KEY_BUS_ID, alarm.getBusName());
+        values.put(Alarm.KEY_BUS_ID, alarm.getBusId());
+        values.put(Alarm.KEY_DESTINATION_TIME, alarm.getArriveTime());
+        values.put(Alarm.KEY_ALARM_TERM, alarm.getAlarmTerm());
+        values.put(Alarm.KEY_ALARM_ISON, alarm.getOn());
+
+        db.insert(Alarm.TABLE, null, values);
+        System.out.println("alarm 생성");
+        db.close();
 
     }
 
-    public void addAlarm(Alarm alarm, SQLiteDatabase database){
+    Alarm findAlarmByID(Integer id){
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        StringBuffer queryText = new StringBuffer();
-        queryText.append(" INSERT INTO ALARM_TABLE ( ");
-        queryText.append(" DEPT, DEST, DEST_TIME, ALARM_TERM ) ");
-        queryText.append(" VALUES ( ?, ?, ?, ? ); ");
+        String[] columns = {Alarm.KEY_ID, Alarm.KEY_DEPARTURE_NAME,
+                Alarm.KEY_DEPARTURE_STOP, Alarm.KEY_DEPARTURE_NO, Alarm.KEY_DEPARTURE_ID,
+                Alarm.KEY_DESTINATION_NAME, Alarm.KEY_DESTINATION_STOP,
+                Alarm.KEY_BUS_NAME, Alarm.KEY_BUS_ID,
+                Alarm.KEY_DESTINATION_TIME, Alarm.KEY_ALARM_TERM, Alarm.KEY_ALARM_ISON
+        };
 
-        database.execSQL(queryText.toString(), new Object[]{
-                alarm.getDeparture(),
-                alarm.getDestination(),
-                alarm.getDestinationTime(),
-                alarm.getAlarmTerm()
-        });
+        String selection = Alarm.KEY_ID + "=?";
+        String[] selectId = {id.toString()};
 
-        System.out.println("알람 추가");
+        Cursor cursor = db.query(Alarm.TABLE, columns, selection, selectId, null, null, null);
 
+        boolean found = cursor.moveToNext();
+
+        if(!found) return null;
+
+        int alarmId = cursor.getInt(0);
+        String departurePlace = cursor.getString(1);
+        String departureStop = cursor.getString(3);
+        String departureNo = cursor.getString(4);
+        String departureId = cursor.getString(5);
+        String destinationPlace = cursor.getString(6);
+        String destinationStop = cursor.getString(7);
+        String busName = cursor.getString(8);
+        String busId = cursor.getString(9);
+        String arriveTime = cursor.getString(10);
+        String alarmTerm = cursor.getString(11);
+        Boolean alarmIsOn = cursor.getInt(12) > 0;
+
+        cursor.close();
+
+        Alarm alarm = new Alarm(alarmId, departurePlace, departureStop, departureNo
+                , departureId, destinationPlace, destinationStop, busName, busId,arriveTime, alarmTerm);
+        alarm.setOn(alarmIsOn);
+
+        return alarm;
     }
 
-    public List<Alarm> getAllAlarmsData(SQLiteDatabase database){
+    public List<Alarm> findAll(){
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        database = getReadableDatabase();
+        String[] columns = {Alarm.KEY_ID, Alarm.KEY_DEPARTURE_NAME,
+                Alarm.KEY_DEPARTURE_STOP, Alarm.KEY_DEPARTURE_NO, Alarm.KEY_DEPARTURE_ID,
+                Alarm.KEY_DESTINATION_NAME, Alarm.KEY_DESTINATION_STOP,
+                Alarm.KEY_BUS_NAME, Alarm.KEY_BUS_ID,
+                Alarm.KEY_DESTINATION_TIME, Alarm.KEY_ALARM_TERM, Alarm.KEY_ALARM_ISON
+        };
 
-        Cursor cursor = database.rawQuery(" SELECT * FROM ALARM_TABLE ", null);
+        @SuppressLint("Recycle") Cursor cursor = db.query(Alarm.TABLE, columns, null, null, null, null, null);
 
         List<Alarm> alarms = new ArrayList<>();
-        Alarm alarm = null;
 
+        while(cursor.moveToNext()){
+            Integer id = cursor.getInt(0);
+            String departurePlace = cursor.getString(1);
+            String departureStop = cursor.getString(3);
+            String departureNo = cursor.getString(4);
+            String departureId = cursor.getString(5);
+            String destinationPlace = cursor.getString(6);
+            String destinationStop = cursor.getString(7);
+            String busName = cursor.getString(8);
+            String busId = cursor.getString(9);
+            String arriveTime = cursor.getString(10);
+            String alarmTerm = cursor.getString(11);
+            Boolean alarmIsOn = false;
 
-        while ( cursor.moveToNext() ){
-            alarm = new Alarm(cursor.getString(0), cursor.getString(1),
-                    cursor.getString(2), cursor.getString(3));
+            Alarm alarm = new Alarm(id, departurePlace, departureStop, departureNo
+            , departureId, destinationPlace, destinationStop, busName, busId,arriveTime, alarmTerm);
+
+            alarm.setOn(alarmIsOn);
+
             alarms.add(alarm);
-            System.out.println("Test3");
         }
-
-        System.out.println("Get All Data Complete");
         return alarms;
+    }
+
+    //id: list에서의 순서 = auto increment된 id
+    public void updateAlarm(int id, Alarm alarm){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String UPDATE_TABLE = "UPDATE "
+                + Alarm.TABLE+ " SET "
+                + Alarm.KEY_DEPARTURE_NAME + " = '"+alarm.getDeparturePlace()+"' , "
+                + Alarm.KEY_DEPARTURE_STOP + " = '"+alarm.getDepartureStop()+"' , "
+                + Alarm.KEY_DEPARTURE_NO + " = '"+alarm.getDepartureNo()+"' , "
+                + Alarm.KEY_DEPARTURE_ID + " = '"+alarm.getDepartureId()+"' , "
+                + Alarm.KEY_DESTINATION_NAME + " = '"+alarm.getDestinationPlace()+"' , "
+                + Alarm.KEY_DESTINATION_STOP + " = '"+alarm.getDestinationStop()+"' , "
+                + Alarm.KEY_BUS_NAME + " = '"+alarm.getBusName()+"' , "
+                + Alarm.KEY_BUS_ID + " = '"+alarm.getBusId()+"' , "
+                + Alarm.KEY_DESTINATION_TIME + " = '"+alarm.getArriveTime()+"' , "
+                + Alarm.KEY_ALARM_TERM + " = '"+alarm.getAlarmTerm()+"' , "
+                + Alarm.KEY_ALARM_ISON + " = '"+alarm.getOn()+"' , "
+                + "WHERE "+ Alarm.KEY_ID + " = '" + id + "'";
+
+        db.execSQL(UPDATE_TABLE);
+        System.out.println("update data");
+    }
+
+    //id: list에서의 순서 = auto increment된 id
+    public void deleteAlarm(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String DELETE_DATA = "DELETE FROM " + Alarm.TABLE
+                + " WHERE " + Alarm.KEY_ID + " = '" + id + "'";
+
+        db.execSQL(DELETE_DATA);
+        System.out.println("Delete Data");
+    }
+
+    public void clearList(){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //String DELETE_LIST = "DELETE FROM " + Alarm.TABLE;
+        String DELETE_TABLE = "DROP TABLE " + Alarm.TABLE;
+        db.execSQL(DELETE_TABLE);
+        System.out.println("Delete Data");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        Toast.makeText(context, "버전이 올라갔습니다.", Toast.LENGTH_SHORT).show();
+
     }
+
 }
