@@ -19,11 +19,20 @@ public class Alarm {
 
     private int alarmId;
     private String departurePlace;
+    private String departurePlaceLongitude;
+    private String departurePlaceLatitude;
+
     private String departureStop;
     private String departureNo;
     private String departureId;
     private String destinationPlace;
+    private String destinationPlaceLongitude;
+    private String destinationPlaceLatitude;
+
     private String destinationStop;
+    private String destinationNo;
+    private String destinationId;
+
     private String busName;
     private String busId;
     private String arriveTime;
@@ -34,10 +43,14 @@ public class Alarm {
         return busName;
     }
 
+    public Alarm() {
+    }
+
     public Alarm(int alarmId, String departurePlace, String departureStop, String departureNo, String departureId,
                  String destinationPlace, String destinationStop, String busName, String busId, String arriveTime, String alarmTerm) {
         this.alarmId = alarmId;
         this.departurePlace = departurePlace;
+
         this.departureStop = departureStop;
         this.departureNo = departureNo;
         this.departureId = departureId;
@@ -46,6 +59,98 @@ public class Alarm {
         this.busName = busName;
         this.busId = busId;
         this.arriveTime = arriveTime;
+        this.alarmTerm = alarmTerm;
+    }
+
+    public String getDeparturePlaceLongitude() {
+        return departurePlaceLongitude;
+    }
+
+    public String getDeparturePlaceLatitude() {
+        return departurePlaceLatitude;
+    }
+
+    public String getDestinationPlaceLongitude() {
+        return destinationPlaceLongitude;
+    }
+
+    public String getDestinationPlaceLatitude() {
+        return destinationPlaceLatitude;
+    }
+
+    public String getDestinationNo() {
+        return destinationNo;
+    }
+
+    public String getDestinationId() {
+        return destinationId;
+    }
+
+    public void setAlarmId(int alarmId) {
+        this.alarmId = alarmId;
+    }
+
+    public void setDeparturePlace(String departurePlace) {
+        this.departurePlace = departurePlace;
+    }
+
+    public void setDeparturePlaceLongitude(String departurePlaceLongitude) {
+        this.departurePlaceLongitude = departurePlaceLongitude;
+    }
+
+    public void setDeparturePlaceLatitude(String departurePlaceLatitude) {
+        this.departurePlaceLatitude = departurePlaceLatitude;
+    }
+
+    public void setDepartureStop(String departureStop) {
+        this.departureStop = departureStop;
+    }
+
+    public void setDepartureNo(String departureNo) {
+        this.departureNo = departureNo;
+    }
+
+    public void setDepartureId(String departureId) {
+        this.departureId = departureId;
+    }
+
+    public void setDestinationPlace(String destinationPlace) {
+        this.destinationPlace = destinationPlace;
+    }
+
+    public void setDestinationPlaceLongitude(String destinationPlaceLongitude) {
+        this.destinationPlaceLongitude = destinationPlaceLongitude;
+    }
+
+    public void setDestinationPlaceLatitude(String destinationPlaceLatitude) {
+        this.destinationPlaceLatitude = destinationPlaceLatitude;
+    }
+
+    public void setDestinationStop(String destinationStop) {
+        this.destinationStop = destinationStop;
+    }
+
+    public void setDestinationNo(String destinationNo) {
+        this.destinationNo = destinationNo;
+    }
+
+    public void setDestinationId(String destinationId) {
+        this.destinationId = destinationId;
+    }
+
+    public void setBusName(String busName) {
+        this.busName = busName;
+    }
+
+    public void setBusId(String busId) {
+        this.busId = busId;
+    }
+
+    public void setArriveTime(String arriveTime) {
+        this.arriveTime = arriveTime;
+    }
+
+    public void setAlarmTerm(String alarmTerm) {
         this.alarmTerm = alarmTerm;
     }
 

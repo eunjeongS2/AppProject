@@ -15,12 +15,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Calendar;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.Address;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.CoordinatesFinder;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.WalkRequiredTimeFinder;
 import kr.ac.ajou.jinaeunjeongbus.database.DBHelper;
 
-public class AddAlarmDialogFragment extends DialogFragment {
+public class AddAlarmDialogFragment extends DialogFragment implements OnCoordinatesLoadListener, OnWalkRequiredTimeLoadListener, OnBusRequiredTimeLoadListener {
 
     public static final String TAG = "AddAlarmDialogFragment";
 
@@ -36,15 +41,24 @@ public class AddAlarmDialogFragment extends DialogFragment {
     private EditText alarmTermEditText;
     private EditText busNameEditText;
 
-    private TextView getDepartureBtn;
-    private TextView getDestinationBtn;
-    private TextView getDepartureStopBtn;
-    private TextView getDestinationStopBtn;
-    private TextView getBusBtn;
+    private TextView getDepartureBotton;
+    private TextView getDestinationBotton;
+    private TextView getDepartureStopBotton;
+    private TextView getDestinationStopBotton;
+    private TextView getBusBotton;
 
     private DBHelper dbHelper;
 
     private OnAlarmListener onAlarmListener;
+    private String departureWalkRequiredTime;
+    private String destinationWalkRequiredTime;
+
+    private String busRequiredTime;
+    private Address walkDepartureAddress;
+    private Address walkDestinationStopAddress;
+
+    private Address walkDepartureStopAddress;
+    private Address walkDestinationAddress;
 
     public void setOnAlarmListener(OnAlarmListener onAlarmListener) {
         this.onAlarmListener = onAlarmListener;
@@ -68,19 +82,43 @@ public class AddAlarmDialogFragment extends DialogFragment {
         alarmTermEditText = view.findViewById(R.id.alarm_term_editText);
         busNameEditText = view.findViewById(R.id.bus_search_editText);
 
-        getDepartureBtn = view.findViewById(R.id.search_departure_btn);
-        getDestinationBtn = view.findViewById(R.id.search_destination_btn);
-        getDepartureStopBtn = view.findViewById(R.id.search_departure_stop_btn);
-        getDestinationStopBtn = view.findViewById(R.id.search_destination_stop_btn);
-        getBusBtn = view.findViewById(R.id.search_bus_btn);
+        getDepartureBotton = view.findViewById(R.id.search_departure_btn);
+        getDestinationBotton = view.findViewById(R.id.search_destination_btn);
+        getDepartureStopBotton = view.findViewById(R.id.search_departure_stop_btn);
+        getDestinationStopBotton = view.findViewById(R.id.search_destination_stop_btn);
+        getBusBotton = view.findViewById(R.id.search_bus_btn);
 
-        getBusBtn.setOnClickListener(v ->{
+        getBusBotton.setOnClickListener(v ->{
             //go to bus_search_fragment
         });
 
         alarmHour = view.findViewById(R.id.hour_editText);
         Calendar c = Calendar.getInstance();
         getHour = c.get(Calendar.HOUR_OF_DAY);
+
+        String bbbbb = "";
+        String aaaaa = "";
+
+        try {
+            bbbbb = URLEncoder.encode("수원시 영통구 망포동 마젤란아파트 1101동 1004호", "utf-8");
+            aaaaa = URLEncoder.encode("수원시 영통구 망포동 늘푸른벽산아파트 116동 1004호", "utf-8");
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(bbbbb);
+        System.out.println(aaaaa);
+
+        walkDepartureAddress = new Address("수원시영통구망포동마젤란아파트 1101동 1004호", "37.241157", "127.062392");
+        walkDestinationStopAddress = new Address("수원시영통구망포동마젤란아파트 1102동 1004호", "37.239289", "127.059803");
+
+        try {
+            new CoordinatesFinder(this, "수원시 영통구 망포동 마젤란아파트 1101동 1004호").execute();
+            new WalkRequiredTimeFinder(this, walkDepartureAddress, walkDestinationStopAddress).execute();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         alarmHour.addTextChangedListener(new TextWatcher() {
             @Override
@@ -169,5 +207,44 @@ public class AddAlarmDialogFragment extends DialogFragment {
 
         alertDialog.setCanceledOnTouchOutside(false);
         return alertDialog;
+    }
+
+    @Override
+    public void onWalkRequiredTimeLoad(String WalkDepartureAddressName, String requiredTime) {
+        if(WalkDepartureAddressName.equals(walkDepartureAddress.getAddressName())){
+            departureWalkRequiredTime = requiredTime;
+        }else if (WalkDepartureAddressName.equals(walkDestinationStopAddress.getAddressName())){
+            destinationWalkRequiredTime = requiredTime;
+        }
+    }
+
+    @Override
+    public void onCoordinatesLoad(Address address) {
+        if(address.getAddressName().equals(String.valueOf(departurePlaceEditText.getText()))){
+            walkDepartureAddress = address;
+        }else if (address.getAddressName().equals(String.valueOf(destinationPlaceEditText.getText()))){
+            walkDestinationStopAddress = address;
+        }
+
+        if(walkDepartureAddress !=null && walkDestinationStopAddress !=null){
+            try {
+                new WalkRequiredTimeFinder(this, walkDepartureAddress, walkDestinationStopAddress).execute();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(walkDepartureStopAddress !=null && walkDestinationAddress !=null) {
+            try {
+                new WalkRequiredTimeFinder(this, walkDepartureStopAddress, walkDestinationAddress).execute();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onBusRequiredTimeLoad(String requiredTime) {
+        busRequiredTime = requiredTime;
     }
 }

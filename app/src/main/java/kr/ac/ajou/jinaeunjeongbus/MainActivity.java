@@ -19,8 +19,12 @@ import android.view.View;
 import android.support.design.widget.NavigationView;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import kr.ac.ajou.jinaeunjeongbus.alarm.AddAlarmDialogFragment;
 import kr.ac.ajou.jinaeunjeongbus.alarm.BusAlarmFragment;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.CoordinatesFinder;
 import kr.ac.ajou.jinaeunjeongbus.database.DBHelper;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

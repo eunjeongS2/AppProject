@@ -15,23 +15,32 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class DownloadRawData extends AsyncTask<String, Void, Document> {
 
     private Document document;
-    private OnBusIdFindListener onBusIdFindListener;
-    private OnBusLocationFinder onBusLocationFinder;
-    private OnBusStopIdFindListener onBusStopIdFindListener;
+    private FindListener.OnBusIdFindListener onBusIdFindListener;
+    private FindListener.OnBusLocationFindListener onBusLocationFindListener;
+    private FindListener.OnBusStopIdFindListener onBusStopIdFindListener;
+    private FindListener.OnCoordinatesFindListener onCoordinatesFindListener;
+    private FindListener.OnWalkRequiredTimeFindListener onWalkRequiredTimeFindListener;
 
-    public DownloadRawData(OnBusStopIdFindListener onBusStopIdFindListener) {
-        this.onBusStopIdFindListener = onBusStopIdFindListener;
-
-    }
-
-    public DownloadRawData(OnBusIdFindListener onBusIdFindListener) {
+    public DownloadRawData(FindListener.OnBusIdFindListener onBusIdFindListener) {
         this.onBusIdFindListener = onBusIdFindListener;
-
+    }
+    public DownloadRawData(FindListener.OnBusLocationFindListener onBusLocationFindListener) {
+        this.onBusLocationFindListener = onBusLocationFindListener;
     }
 
-    public DownloadRawData(OnBusLocationFinder onBusLocationFinder) {
-        this.onBusLocationFinder = onBusLocationFinder;
+    public DownloadRawData(FindListener.OnBusStopIdFindListener onBusStopIdFindListener) {
+        this.onBusStopIdFindListener = onBusStopIdFindListener;
     }
+
+    public DownloadRawData(FindListener.OnCoordinatesFindListener onCoordinatesFindListener) {
+        this.onCoordinatesFindListener = onCoordinatesFindListener;
+    }
+
+    public DownloadRawData(FindListener.OnWalkRequiredTimeFindListener onWalkRequiredTimeFindListener) {
+        this.onWalkRequiredTimeFindListener = onWalkRequiredTimeFindListener;
+    }
+
+
 
     @Override
     protected Document doInBackground(String... urls) {
@@ -52,10 +61,14 @@ public class DownloadRawData extends AsyncTask<String, Void, Document> {
     protected void onPostExecute(Document document) {
         if(onBusIdFindListener!=null){
             onBusIdFindListener.parseXML(document);
-        }else if(onBusLocationFinder!=null){
-            onBusLocationFinder.parseXML(document);
+        }else if(onBusLocationFindListener !=null){
+            onBusLocationFindListener.parseXML(document);
         }else if(onBusStopIdFindListener!=null){
             onBusStopIdFindListener.parseXML(document);
+        }else if(onCoordinatesFindListener != null){
+            onCoordinatesFindListener.parseXML(document);
+        }else if(onWalkRequiredTimeFindListener != null){
+            onWalkRequiredTimeFindListener.parseXML(document);
         }
     }
 }
