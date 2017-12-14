@@ -42,13 +42,10 @@ public class BusAlarmFragment extends Fragment {
 
         setUpRecyclerView();
 
-        onAlarmListener = new OnAlarmListener() {
-            @Override
-            public void onAlarmDialogResult(Alarm alarm) {
-                recyclerAdapter.addItem(alarm);
-                recyclerAdapter.notifyDataSetChanged();
-                alarmOnOff(getContext(), alarm);
-            }
+        onAlarmListener = alarm -> {
+            recyclerAdapter.addItem(alarm);
+            recyclerAdapter.notifyDataSetChanged();
+            alarmOnOff(getContext(), alarm);
         };
 
 //        alarmModel = new AlarmModel();

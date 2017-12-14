@@ -23,4 +23,5 @@ public interface FindListener {
     interface OnWalkRequiredTimeFindListener {
         void parseXML(Document document);
     }
+
 }

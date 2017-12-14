@@ -16,16 +16,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Calendar;
+import java.util.List;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.Address;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.CoordinatesFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.WalkRequiredTimeFinder;
 import kr.ac.ajou.jinaeunjeongbus.database.DBHelper;
+import kr.ac.ajou.jinaeunjeongbus.search.OnBusStopLoadListener;
 
-public class AddAlarmDialogFragment extends DialogFragment implements OnCoordinatesLoadListener, OnWalkRequiredTimeLoadListener, OnBusRequiredTimeLoadListener {
+public class AddAlarmDialogFragment extends DialogFragment implements OnCoordinatesLoadListener, OnWalkRequiredTimeLoadListener, OnBusRequiredTimeLoadListener, OnBusStopLoadListener {
 
     public static final String TAG = "AddAlarmDialogFragment";
 
@@ -41,11 +42,11 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
     private EditText alarmTermEditText;
     private EditText busNameEditText;
 
-    private TextView getDepartureBotton;
-    private TextView getDestinationBotton;
-    private TextView getDepartureStopBotton;
-    private TextView getDestinationStopBotton;
-    private TextView getBusBotton;
+    private TextView getDepartureButton;
+    private TextView getDestinationButton;
+    private TextView getDepartureStopButton;
+    private TextView getDestinationStopButton;
+    private TextView getBusButton;
 
     private DBHelper dbHelper;
 
@@ -82,13 +83,13 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         alarmTermEditText = view.findViewById(R.id.alarm_term_editText);
         busNameEditText = view.findViewById(R.id.bus_search_editText);
 
-        getDepartureBotton = view.findViewById(R.id.search_departure_btn);
-        getDestinationBotton = view.findViewById(R.id.search_destination_btn);
-        getDepartureStopBotton = view.findViewById(R.id.search_departure_stop_btn);
-        getDestinationStopBotton = view.findViewById(R.id.search_destination_stop_btn);
-        getBusBotton = view.findViewById(R.id.search_bus_btn);
+        getDepartureButton = view.findViewById(R.id.search_departure_btn);
+        getDestinationButton = view.findViewById(R.id.search_destination_btn);
+        getDepartureStopButton = view.findViewById(R.id.search_departure_stop_btn);
+        getDestinationStopButton = view.findViewById(R.id.search_destination_stop_btn);
+        getBusButton = view.findViewById(R.id.search_bus_btn);
 
-        getBusBotton.setOnClickListener(v ->{
+        getBusButton.setOnClickListener(v ->{
             //go to bus_search_fragment
         });
 
@@ -96,25 +97,12 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         Calendar c = Calendar.getInstance();
         getHour = c.get(Calendar.HOUR_OF_DAY);
 
-        String bbbbb = "";
-        String aaaaa = "";
-
-        try {
-            bbbbb = URLEncoder.encode("수원시 영통구 망포동 마젤란아파트 1101동 1004호", "utf-8");
-            aaaaa = URLEncoder.encode("수원시 영통구 망포동 늘푸른벽산아파트 116동 1004호", "utf-8");
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(bbbbb);
-        System.out.println(aaaaa);
 
         walkDepartureAddress = new Address("수원시영통구망포동마젤란아파트 1101동 1004호", "37.241157", "127.062392");
-        walkDestinationStopAddress = new Address("수원시영통구망포동마젤란아파트 1102동 1004호", "37.239289", "127.059803");
+        walkDestinationStopAddress = new Address("수원시영통구망포동늘푸른벽산아파트 116동 1004호", "37.239289", "127.059803");
 
         try {
-            new CoordinatesFinder(this, "수원시 영통구 망포동 마젤란아파트 1101동 1004호").execute();
+            new CoordinatesFinder(this, "센트럴하이츠정류장").execute();
             new WalkRequiredTimeFinder(this, walkDepartureAddress, walkDestinationStopAddress).execute();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -211,6 +199,9 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
     @Override
     public void onWalkRequiredTimeLoad(String WalkDepartureAddressName, String requiredTime) {
+        System.out.println("requiredTime ="+requiredTime);
+
+
         if(WalkDepartureAddressName.equals(walkDepartureAddress.getAddressName())){
             departureWalkRequiredTime = requiredTime;
         }else if (WalkDepartureAddressName.equals(walkDestinationStopAddress.getAddressName())){
@@ -220,9 +211,16 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
     @Override
     public void onCoordinatesLoad(Address address) {
+
+        System.out.println("address ="+address.getAddressName()+address.getAddressLatitude()+address.getAddressLongitude());
+
         if(address.getAddressName().equals(String.valueOf(departurePlaceEditText.getText()))){
             walkDepartureAddress = address;
-        }else if (address.getAddressName().equals(String.valueOf(destinationPlaceEditText.getText()))){
+        }else if (address.getAddressName().equals(String.valueOf(departureStopEditText.getText()))){
+            walkDestinationStopAddress = address;
+        }else if(address.getAddressName().equals(String.valueOf(destinationPlaceEditText.getText()))){
+            walkDestinationAddress = address;
+        }else if(address.getAddressName().equals(String.valueOf(destinationStopEditText.getText()))){
             walkDestinationStopAddress = address;
         }
 
@@ -245,6 +243,18 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
     @Override
     public void onBusRequiredTimeLoad(String requiredTime) {
+
         busRequiredTime = requiredTime;
+    }
+
+
+    @Override
+    public void onSearchComplete(List<BusStop> searchResult) {
+
+    }
+
+    @Override
+    public void onBusStopCoordinatesLoad(List<Address> addressList) {
+
     }
 }

@@ -6,6 +6,9 @@ public class Address {
     private String addressLatitude;
     private String addressLongitude;
 
+    public Address() {
+    }
+
     public Address(String addressName, String addressLatitude, String addressLongitude) {
         this.addressName = addressName;
         this.addressLatitude = addressLatitude;

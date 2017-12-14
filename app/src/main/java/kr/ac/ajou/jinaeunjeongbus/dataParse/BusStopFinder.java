@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.ajou.jinaeunjeongbus.alarm.BusStop;
+import kr.ac.ajou.jinaeunjeongbus.alarm.OnCoordinatesLoadListener;
 import kr.ac.ajou.jinaeunjeongbus.search.OnBusStopLoadListener;
 
 
@@ -21,6 +22,7 @@ public class BusStopFinder extends Finder implements FindListener.OnBusStopIdFin
 
 
     private OnBusStopLoadListener onBusStopLoadListener;
+    private OnCoordinatesLoadListener onCoordinatesLoadListener;
     private String busStopName;
 
     public BusStopFinder(OnBusStopLoadListener onBusStopLoadListener, String busStopName) {
@@ -43,6 +45,7 @@ public class BusStopFinder extends Finder implements FindListener.OnBusStopIdFin
     @Override
     public void parseXML(Document document) {
         List<BusStop> busStops = new ArrayList<>();
+        List<Address> addresses = new ArrayList<>();
 
         NodeList nodeList = document.getElementsByTagName("itemList");
 
@@ -51,21 +54,33 @@ public class BusStopFinder extends Finder implements FindListener.OnBusStopIdFin
             Node node = nodeList.item(i);
             Element firstElement = (Element) node;
             BusStop busStop = new BusStop();
+            Address address = new Address();
+
 
             NodeList busStopIdNode = firstElement.getElementsByTagName("stId");
             busStop.setBusStopId(busStopIdNode.item(0).getChildNodes().item(0).getNodeValue());
 
             NodeList busStopNameNode = firstElement.getElementsByTagName("stNm");
             busStop.setBusStopName(busStopNameNode.item(0).getChildNodes().item(0).getNodeValue());
+            address.setAddressName(busStopNameNode.item(0).getChildNodes().item(0).getNodeValue());
 
             NodeList busStopDistinctNumberNode = firstElement.getElementsByTagName("arsId");
             busStop.setDistinctNumber(busStopDistinctNumberNode.item(0).getChildNodes().item(0).getNodeValue());
 
+            NodeList busStopLatitudeNode = firstElement.getElementsByTagName("tmX");
+            busStop.setDistinctNumber(busStopLatitudeNode.item(0).getChildNodes().item(0).getNodeValue());
+
+            NodeList busStopLongitudeNode = firstElement.getElementsByTagName("tmY");
+            busStop.setDistinctNumber(busStopLongitudeNode.item(0).getChildNodes().item(0).getNodeValue());
+
+
             busStops.add(busStop);
+            addresses.add(address);
 
         }
 
         onBusStopLoadListener.onSearchComplete(busStops);
+        onBusStopLoadListener.onBusStopCoordinatesLoad(addresses);
 
     }
 }

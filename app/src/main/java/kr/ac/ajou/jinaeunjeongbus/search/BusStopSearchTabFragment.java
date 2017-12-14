@@ -16,6 +16,7 @@ import java.util.List;
 import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.alarm.Bus;
 import kr.ac.ajou.jinaeunjeongbus.alarm.BusStop;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.Address;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusStopFinder;
 
 public class BusStopSearchTabFragment extends Fragment implements OnBusStopLoadListener, OnBusAlarmCheckListener{
@@ -78,16 +79,16 @@ public class BusStopSearchTabFragment extends Fragment implements OnBusStopLoadL
 
     }
 
-    @Override
-    public void onLoad(List<BusStop> busStopList) {
-        if(busStopList.size() == 0) {
-            emptySearchResultText.setVisibility(View.VISIBLE);
-            return;
-        }
-
-        adapter.setItems(busStopList);
-        adapter.notifyDataSetChanged();
-    }
+//    @Override
+//    public void onLoad(List<BusStop> busStopList) {
+//        if(busStopList.size() == 0) {
+//            emptySearchResultText.setVisibility(View.VISIBLE);
+//            return;
+//        }
+//
+//        adapter.setItems(busStopList);
+//        adapter.notifyDataSetChanged();
+//    }
 
     @Override
     public void onSearchComplete(List<BusStop> searchResult) {
@@ -100,6 +101,11 @@ public class BusStopSearchTabFragment extends Fragment implements OnBusStopLoadL
 
         adapter.setItems(searchResult);
         adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onBusStopCoordinatesLoad(List<Address> addressList) {
 
     }
 

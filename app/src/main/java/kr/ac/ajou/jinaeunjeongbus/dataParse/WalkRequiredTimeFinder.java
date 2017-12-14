@@ -71,7 +71,6 @@ public class WalkRequiredTimeFinder extends Finder implements FindListener.OnWal
             requiredTime = requiredTimeNode.item(0).getChildNodes().item(0).getNodeValue();
 
         }
-        System.out.println("requiredTime =" + requiredTime);
 
         onWalkRequiredTimeLoadListener.onWalkRequiredTimeLoad(walkDepartureAddressName, requiredTime);
 

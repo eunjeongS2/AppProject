@@ -69,8 +69,6 @@ public class CoordinatesFinder extends Finder implements FindListener.OnCoordina
 
         }
 
-        System.out.println("latitude =" + latitude +"longitude = "+longitude + "address = "+addressName);
-
         onCoordinatesLoadListener.onCoordinatesLoad(new Address(addressName, latitude, longitude));
 
     }
