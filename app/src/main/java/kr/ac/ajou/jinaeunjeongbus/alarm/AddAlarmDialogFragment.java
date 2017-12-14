@@ -10,6 +10,8 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +28,8 @@ import kr.ac.ajou.jinaeunjeongbus.dataParse.WalkRequiredTimeFinder;
 import kr.ac.ajou.jinaeunjeongbus.database.DBHelper;
 import kr.ac.ajou.jinaeunjeongbus.search.OnBusStopLoadListener;
 
+import static kr.ac.ajou.jinaeunjeongbus.R.layout.support_simple_spinner_dropdown_item;
+
 public class AddAlarmDialogFragment extends DialogFragment implements OnCoordinatesLoadListener, OnWalkRequiredTimeLoadListener, OnBusRequiredTimeLoadListener, OnBusStopLoadListener {
 
     public static final String TAG = "AddAlarmDialogFragment";
@@ -35,12 +39,12 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
     private EditText departurePlaceEditText;
     private EditText destinationPlaceEditText;
-    private EditText departureStopEditText;
-    private EditText destinationStopEditText;
+    private AutoCompleteTextView departureStopEditText;
+    private AutoCompleteTextView destinationStopEditText;
     private EditText alarmHour;
     private EditText alarmMinute;
-    private EditText alarmTermEditText;
-    private EditText busNameEditText;
+    private AutoCompleteTextView alarmTermEditText;
+    private AutoCompleteTextView busNameEditText;
 
     private TextView getDepartureButton;
     private TextView getDestinationButton;
@@ -89,8 +93,36 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         getDestinationStopButton = view.findViewById(R.id.search_destination_stop_btn);
         getBusButton = view.findViewById(R.id.search_bus_btn);
 
+        String[] strings = {"alpha","beta","gamma","delta","alter"};
+
+        getDestinationStopButton.setOnClickListener(v->{
+            ArrayAdapter<String> destinationAdapter = new ArrayAdapter<>(
+                    getActivity(),
+                    support_simple_spinner_dropdown_item,
+                    strings
+            );
+            destinationStopEditText.setAdapter(destinationAdapter);
+            destinationStopEditText.showDropDown();
+        });
+
+        getDepartureStopButton.setOnClickListener(v ->{
+            ArrayAdapter<String> departureAdapter = new ArrayAdapter<>(
+                    getActivity(),
+                    support_simple_spinner_dropdown_item,
+                    strings
+            );
+            departureStopEditText.setAdapter(departureAdapter);
+            departureStopEditText.showDropDown();
+        });
+
         getBusButton.setOnClickListener(v ->{
-            //go to bus_search_fragment
+            ArrayAdapter<String> busAdapter = new ArrayAdapter<>(
+                    getActivity(),
+                    support_simple_spinner_dropdown_item,
+                    strings
+            );
+            busNameEditText.setAdapter(busAdapter);
+            busNameEditText.showDropDown();
         });
 
         alarmHour = view.findViewById(R.id.hour_editText);

@@ -124,22 +124,25 @@
             android:textColor="@android:color/black"
             android:text="출발 정류소 : "/>
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/departure_stop_search_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/text_departure_stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="5dp"
             android:textSize="14sp"
             android:textColor="@android:color/black"
-            android:hint="출발 정류소 검색"/>
+            android:hint="출발 정류소 검색"
+            />
 
         <TextView
             android:id="@+id/search_departure_stop_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:textSize="16sp"
             android:textColor="@android:color/black"
@@ -170,22 +173,25 @@
             android:textColor="@android:color/black"
             android:text="도착 정류소 : "/>
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/destination_stop_search_editText"
             android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
             android:layout_toEndOf="@id/text_destination_stop"
+            android:layout_width="match_parent"
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="@android:color/black"
-            android:hint="도착 정류소 검색"/>
+            android:hint="도착 정류소 검색"
+            />
 
         <TextView
             android:id="@+id/search_destination_stop_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:textSize="16sp"
             android:textColor="@android:color/black"
@@ -214,21 +220,25 @@
             android:textColor="@android:color/black"
             android:text="버스 : "/>
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/bus_search_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/text_bus"
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="@android:color/black"
-            android:hint="버스"/>
+            android:hint="버스 검색"
+            />
+
         <TextView
             android:id="@+id/search_bus_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:textSize="16sp"
             android:textColor="@android:color/black"
