@@ -14,7 +14,7 @@ import kr.ac.ajou.jinaeunjeongbus.alarm.Alarm;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "BUS_ALARM_2_DB";
+    private static final String DATABASE_NAME = "BUS_ALARM_4_DB";
     private static final int DATABASE_VERSION = 1;
 
     public DBHelper(Context context) {
@@ -52,7 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(Alarm.KEY_DEPARTURE_ID, alarm.getDepartureId());
         values.put(Alarm.KEY_DESTINATION_NAME, alarm.getDestinationPlace());
         values.put(Alarm.KEY_DESTINATION_STOP, alarm.getDestinationStop());
-        values.put(Alarm.KEY_BUS_ID, alarm.getBusName());
+        values.put(Alarm.KEY_BUS_NAME, alarm.getBusName());
         values.put(Alarm.KEY_BUS_ID, alarm.getBusId());
         values.put(Alarm.KEY_DESTINATION_TIME, alarm.getArriveTime());
         values.put(Alarm.KEY_ALARM_TERM, alarm.getAlarmTerm());
@@ -122,15 +122,15 @@ public class DBHelper extends SQLiteOpenHelper {
         while(cursor.moveToNext()){
             Integer id = cursor.getInt(0);
             String departurePlace = cursor.getString(1);
-            String departureStop = cursor.getString(3);
-            String departureNo = cursor.getString(4);
-            String departureId = cursor.getString(5);
-            String destinationPlace = cursor.getString(6);
-            String destinationStop = cursor.getString(7);
-            String busName = cursor.getString(8);
-            String busId = cursor.getString(9);
-            String arriveTime = cursor.getString(10);
-            String alarmTerm = cursor.getString(11);
+            String departureStop = cursor.getString(2);
+            String departureNo = cursor.getString(3);
+            String departureId = cursor.getString(4);
+            String destinationPlace = cursor.getString(5);
+            String destinationStop = cursor.getString(6);
+            String busName = cursor.getString(7);
+            String busId = cursor.getString(8);
+            String arriveTime = cursor.getString(9);
+            String alarmTerm = cursor.getString(10);
             Boolean alarmIsOn = false;
 
             Alarm alarm = new Alarm(id, departurePlace, departureStop, departureNo

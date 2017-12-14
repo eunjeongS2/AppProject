@@ -33,16 +33,6 @@
                     android:layout_margin="2dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black"
-                    android:text="도착지 : "
-                    tools:text="도착지 : "/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:layout_margin="2dp"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black"
                     android:text="출발지 : "
                     tools:text="출발지 : "/>
 
@@ -53,8 +43,28 @@
                     android:layout_margin="2dp"
                     android:textSize="14sp"
                     android:textColor="@android:color/black"
+                    android:text="도착지 : "
+                    tools:text="도착지 : "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:layout_margin="2dp"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
                     android:text="출발 정류장 : "
                     tools:text="출발 정류장 : "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:layout_margin="2dp"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    android:text="도착 정류장 : "
+                    tools:text="도착 정류장 : "/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -87,16 +97,6 @@
                 android:layout_toEndOf="@id/alarm_info_text_container">
 
                 <TextView
-                    android:id="@+id/alarm_destination"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:layout_margin="2dp"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black"
-                    tools:text="도착지 "/>
-
-                <TextView
                     android:id="@+id/alarm_departure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -107,7 +107,17 @@
                     tools:text="출발지 "/>
 
                 <TextView
-                    android:id="@+id/alarm_bus_stop"
+                    android:id="@+id/alarm_destination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:layout_margin="2dp"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    tools:text="도착지 "/>
+
+                <TextView
+                    android:id="@+id/alarm_departure_bus_stop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
@@ -115,6 +125,17 @@
                     android:textSize="14sp"
                     android:textColor="@android:color/black"
                     tools:text="정류장 "/>
+
+                <TextView
+                    android:id="@+id/alarm_destination_bus_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:layout_margin="2dp"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    tools:text="정류장 "/>
+
 
                 <TextView
                     android:id="@+id/alarm_time"

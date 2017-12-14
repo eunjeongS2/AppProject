@@ -43,7 +43,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
     private AutoCompleteTextView destinationStopEditText;
     private EditText alarmHour;
     private EditText alarmMinute;
-    private AutoCompleteTextView alarmTermEditText;
+    private EditText alarmTermEditText;
     private AutoCompleteTextView busNameEditText;
 
     private TextView getDepartureButton;
@@ -93,7 +93,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         getDestinationStopButton = view.findViewById(R.id.search_destination_stop_btn);
         getBusButton = view.findViewById(R.id.search_bus_btn);
 
-        String[] strings = {"alpha","beta","gamma","delta","alter"};
+        String[] strings = {};
 
         getDestinationStopButton.setOnClickListener(v->{
             ArrayAdapter<String> destinationAdapter = new ArrayAdapter<>(
@@ -196,15 +196,14 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             }
         });
 
-
         String departureNo;
         String departureId;
         String busId;
 
-        @SuppressLint("DefaultLocale") String time = String.format("%02d%02d",getHour,getMinute);
-
         closeButton.setOnClickListener(v -> getFragmentManager().popBackStack());
         checkButton.setOnClickListener((View view1) -> {
+            System.out.println(getHour + ":"+getMinute);
+            @SuppressLint("DefaultLocale") String time = String.format("%02d%02d",getHour,getMinute);
             Alarm alarm = new Alarm(0,String.valueOf(departurePlaceEditText.getText()),
                     String.valueOf(departureStopEditText.getText()),"3","4",
                     String.valueOf(destinationPlaceEditText.getText()),String.valueOf(destinationStopEditText.getText()),
