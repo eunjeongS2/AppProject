@@ -307,6 +307,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             System.out.println(getHour + ":"+getMinute);
             @SuppressLint("DefaultLocale")
             String time = String.format("%02d%02d",getHour,getMinute);
+            @SuppressLint("DefaultLocale") String time = String.format("%02d%02d",getHour,getMinute);
             Alarm alarm = new Alarm(0,String.valueOf(departurePlaceEditText.getText()),
                     String.valueOf(departureStopEditText.getText()),"3","4",
                     String.valueOf(destinationPlaceEditText.getText()),String.valueOf(destinationStopEditText.getText()),
