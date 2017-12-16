@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import kr.ac.ajou.jinaeunjeongbus.alarm.Alarm;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "BUS_ALARM_4_DB";
+    private static final String DATABASE_NAME = "BUS_ALARM_11_DB";
     private static final int DATABASE_VERSION = 1;
 
     public DBHelper(Context context) {
@@ -64,7 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    Alarm findAlarmByID(Integer id){
+    public Alarm findAlarmByID(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] columns = {Alarm.KEY_ID, Alarm.KEY_DEPARTURE_NAME,
@@ -83,7 +84,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if(!found) return null;
 
-        int alarmId = cursor.getInt(0);
         String departurePlace = cursor.getString(1);
         String departureStop = cursor.getString(3);
         String departureNo = cursor.getString(4);
@@ -98,7 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor.close();
 
-        Alarm alarm = new Alarm(alarmId, departurePlace, departureStop, departureNo
+        Alarm alarm = new Alarm(0, departurePlace, departureStop, departureNo
                 , departureId, destinationPlace, destinationStop, busName, busId,arriveTime, alarmTerm);
         alarm.setOn(alarmIsOn);
 
@@ -120,7 +120,6 @@ public class DBHelper extends SQLiteOpenHelper {
         List<Alarm> alarms = new ArrayList<>();
 
         while(cursor.moveToNext()){
-            Integer id = cursor.getInt(0);
             String departurePlace = cursor.getString(1);
             String departureStop = cursor.getString(2);
             String departureNo = cursor.getString(3);
@@ -133,7 +132,7 @@ public class DBHelper extends SQLiteOpenHelper {
             String alarmTerm = cursor.getString(10);
             Boolean alarmIsOn = false;
 
-            Alarm alarm = new Alarm(id, departurePlace, departureStop, departureNo
+            Alarm alarm = new Alarm(0, departurePlace, departureStop, departureNo
             , departureId, destinationPlace, destinationStop, busName, busId,arriveTime, alarmTerm);
 
             alarm.setOn(alarmIsOn);
@@ -143,8 +142,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return alarms;
     }
 
-    //id: list에서의 순서 = auto increment된 id
-    public void updateAlarm(int id, Alarm alarm){
+    public void updateAlarm(String arriveID, Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String UPDATE_TABLE = "UPDATE "
@@ -159,32 +157,22 @@ public class DBHelper extends SQLiteOpenHelper {
                 + Alarm.KEY_BUS_ID + " = '"+alarm.getBusId()+"' , "
                 + Alarm.KEY_DESTINATION_TIME + " = '"+alarm.getArriveTime()+"' , "
                 + Alarm.KEY_ALARM_TERM + " = '"+alarm.getAlarmTerm()+"' , "
-                + Alarm.KEY_ALARM_ISON + " = '"+alarm.getOn()+"' , "
-                + "WHERE "+ Alarm.KEY_ID + " = '" + id + "'";
+                + Alarm.KEY_ALARM_ISON + " = '" + alarm.getOn() + "'"
+                + " WHERE " + Alarm.KEY_DESTINATION_TIME + " = '" + arriveID + "'";
 
         db.execSQL(UPDATE_TABLE);
+
         System.out.println("update data");
     }
 
-    //id: list에서의 순서 = auto increment된 id
-    public void deleteAlarm(int id){
+    public void deleteAlarm(String arriveID) {
         SQLiteDatabase db = this.getWritableDatabase();
+        String[] selectId = {arriveID};
 
-        String DELETE_DATA = "DELETE FROM " + Alarm.TABLE
-                + " WHERE " + Alarm.KEY_ID + " = '" + id + "'";
-
-        db.execSQL(DELETE_DATA);
+        db.delete(Alarm.TABLE, Alarm.KEY_DESTINATION_TIME + "=?", selectId);
         System.out.println("Delete Data");
     }
 
-    public void clearList(){
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        //String DELETE_LIST = "DELETE FROM " + Alarm.TABLE;
-        String DELETE_TABLE = "DROP TABLE " + Alarm.TABLE;
-        db.execSQL(DELETE_TABLE);
-        System.out.println("Delete Data");
-    }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {

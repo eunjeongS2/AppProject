@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import java.util.Calendar;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
@@ -36,7 +35,8 @@ public class BusAlarmFragment extends Fragment {
         View view = inflater.inflate(R.layout.bus_alarm_fragment, container, false);
         dbHelper = new DBHelper(getActivity());
 
-       //dbHelper.clearList();
+
+        //dbHelper.clearList();
 
         alarmListView = view.findViewById(R.id.bus_alarm_list_view);
 
@@ -58,9 +58,27 @@ public class BusAlarmFragment extends Fragment {
 
     private void setUpRecyclerView() {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+
         alarmListView.setLayoutManager(manager);
 
-        recyclerAdapter = new AlarmRecyclerAdapter();
+        recyclerAdapter = new AlarmRecyclerAdapter(getContext(), new OnAlarmClickListener() {
+            @Override
+            public void onClick(int position) {
+                Alarm alarm = recyclerAdapter.getItem(position);
+                AddAlarmDialogFragment dialog = new AddAlarmDialogFragment();
+                dialog.show(getActivity().getFragmentManager(), "a");
+                String id = alarm.getArriveTime();
+                dialog.setAlarm(alarm);
+                dialog.setDialogResult(new OnDialogResultListener() {
+                    @Override
+                    public void onConfirm() {
+                        recyclerAdapter.setItems(dbHelper.findAll());
+                        recyclerAdapter.notifyDataSetChanged();
+                    }
+                });
+
+            }
+        });
         alarmListView.setAdapter(recyclerAdapter);
 
         recyclerAdapter.setItems(dbHelper.findAll());
@@ -74,7 +92,7 @@ public class BusAlarmFragment extends Fragment {
         if (alarmManager == null)
             return;
 
-//        Intent alarmIntent = new Intent("android.intent.action.ALARM_START");
+        //       Intent alarmIntent = new Intent("android.intent.action.ALARM_START");
         Intent alarmIntent = new Intent(this.getActivity(), AlarmReceiver.class);
         PendingIntent pendingIntent;
 
