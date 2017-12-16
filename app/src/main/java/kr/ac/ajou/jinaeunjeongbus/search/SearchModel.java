@@ -31,7 +31,7 @@ public class SearchModel {
         if (onBusLoadListener != null) {
             System.out.println("onLoad" + busList.size());
 
-            onBusLoadListener.onLoad(busList);
+//            onBusLoadListener.onLoad(busList);
         }
 
     }
@@ -54,7 +54,7 @@ public class SearchModel {
 
 //        if(onBusLoadListener != null) {
 //            System.out.println("query");
-//            onBusLoadListener.onSearchComplete(searchResult);
+//            onBusLoadListener.onBusStopSearchComplete(searchResult);
 //        }
     }
 }

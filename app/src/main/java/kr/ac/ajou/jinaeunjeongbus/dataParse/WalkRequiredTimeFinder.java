@@ -37,6 +37,11 @@ public class WalkRequiredTimeFinder extends Finder implements FindListener.OnWal
         this.walkDestinationAddressLatitude = walkDestinationAddress.getAddressLatitude();
         this.walkDestinationAddressLongitude = walkDestinationAddress.getAddressLongitude();
 
+        System.out.println("Finderdeplat"+walkDepartureAddressLatitude);
+        System.out.println("Finderdeplon"+walkDepartureAddressLongitude);
+        System.out.println("Finderdeslat"+walkDestinationAddressLatitude);
+        System.out.println("Finderdeslon"+walkDestinationAddressLongitude);
+
     }
 
     @Override
@@ -61,6 +66,7 @@ public class WalkRequiredTimeFinder extends Finder implements FindListener.OnWal
         String requiredTime = "";
 
         NodeList nodeList = document.getElementsByTagName("Document");
+
 
         for(int i = 0; i< nodeList.getLength(); i++) {
 

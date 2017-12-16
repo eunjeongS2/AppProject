@@ -6,7 +6,5 @@ import kr.ac.ajou.jinaeunjeongbus.alarm.Bus;
 
 
 public interface OnBusLoadListener {
-    void onLoad(List<Bus> busList);
-
     void onSearchComplete(List<Bus> searchResult);
 }

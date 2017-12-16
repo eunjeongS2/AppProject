@@ -27,7 +27,7 @@ public class BusStopFinder extends Finder implements FindListener.OnBusStopIdFin
 
     public BusStopFinder(OnBusStopLoadListener onBusStopLoadListener, String busStopName) {
         this.onBusStopLoadListener = onBusStopLoadListener;
-        this.busStopName = "사당역";
+        this.busStopName = busStopName;
     }
 
     @Override
@@ -67,19 +67,26 @@ public class BusStopFinder extends Finder implements FindListener.OnBusStopIdFin
             NodeList busStopDistinctNumberNode = firstElement.getElementsByTagName("arsId");
             busStop.setDistinctNumber(busStopDistinctNumberNode.item(0).getChildNodes().item(0).getNodeValue());
 
-            NodeList busStopLatitudeNode = firstElement.getElementsByTagName("tmX");
-            busStop.setDistinctNumber(busStopLatitudeNode.item(0).getChildNodes().item(0).getNodeValue());
+            NodeList busStopLongitudeNode = firstElement.getElementsByTagName("tmX");
+            address.setAddressLongitude(busStopLongitudeNode.item(0).getChildNodes().item(0).getNodeValue());
 
-            NodeList busStopLongitudeNode = firstElement.getElementsByTagName("tmY");
-            busStop.setDistinctNumber(busStopLongitudeNode.item(0).getChildNodes().item(0).getNodeValue());
+            NodeList busStopLatitudeNode = firstElement.getElementsByTagName("tmY");
+            address.setAddressLatitude(busStopLatitudeNode.item(0).getChildNodes().item(0).getNodeValue());
 
 
             busStops.add(busStop);
             addresses.add(address);
 
-        }
+            System.out.println("Addresslat"+address.getAddressLatitude());
+            System.out.println("Addresslon"+address.getAddressLongitude());
 
-        onBusStopLoadListener.onSearchComplete(busStops);
+
+        }
+        System.out.println("busStopFinder"+addresses.get(0).getAddressLatitude());
+        System.out.println("busStopFinder"+busStops.get(0).getBusStopName());
+
+
+        onBusStopLoadListener.onBusStopSearchComplete(busStops);
         onBusStopLoadListener.onBusStopCoordinatesLoad(addresses);
 
     }
