@@ -97,22 +97,22 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
 
     }
 
-    @Override
-    public void onLoad(List<Bus> busList) {
-        if(busList.size() == 0) {
-            emptySearchResultText.setVisibility(View.VISIBLE);
-            return;
-        }
-
-        adapter.setItems(busList);
-        adapter.notifyDataSetChanged();
-
-
-    }
+//    @Override
+//    public void onLoad(List<Bus> busList) {
+//        if(busList.size() == 0) {
+//            emptySearchResultText.setVisibility(View.VISIBLE);
+//            return;
+//        }
+//
+//        adapter.setItems(busList);
+//        adapter.notifyDataSetChanged();
+//
+//
+//    }
 
     @Override
     public void onSearchComplete(List<Bus> searchResult) {
-        Log.d(TAG, "onSearchComplete: " + searchResult.size());
+        Log.d(TAG, "onBusStopSearchComplete: " + searchResult.size());
         if(searchResult.size() == 0) {
             emptySearchResultText.setVisibility(View.VISIBLE);
             return;

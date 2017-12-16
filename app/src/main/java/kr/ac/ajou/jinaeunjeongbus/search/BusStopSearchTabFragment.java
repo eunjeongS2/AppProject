@@ -91,8 +91,8 @@ public class BusStopSearchTabFragment extends Fragment implements OnBusStopLoadL
 //    }
 
     @Override
-    public void onSearchComplete(List<BusStop> searchResult) {
-        Log.d(TAG, "onSearchComplete: " + searchResult.size());
+    public void onBusStopSearchComplete(List<BusStop> searchResult) {
+        Log.d(TAG, "onBusStopSearchComplete: " + searchResult.size());
 
         if(searchResult.size() == 0) {
             emptySearchResultText.setVisibility(View.VISIBLE);
