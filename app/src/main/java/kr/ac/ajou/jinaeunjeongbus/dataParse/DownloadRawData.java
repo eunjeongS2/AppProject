@@ -20,6 +20,7 @@ public class DownloadRawData extends AsyncTask<String, Void, Document> {
     private FindListener.OnBusStopIdFindListener onBusStopIdFindListener;
     private FindListener.OnCoordinatesFindListener onCoordinatesFindListener;
     private FindListener.OnWalkRequiredTimeFindListener onWalkRequiredTimeFindListener;
+    private FindListener.OnBusRequiredTimeFindListener onBusRequiredTimeFindListener;
 
     public DownloadRawData(FindListener.OnBusIdFindListener onBusIdFindListener) {
         this.onBusIdFindListener = onBusIdFindListener;
@@ -38,6 +39,10 @@ public class DownloadRawData extends AsyncTask<String, Void, Document> {
 
     public DownloadRawData(FindListener.OnWalkRequiredTimeFindListener onWalkRequiredTimeFindListener) {
         this.onWalkRequiredTimeFindListener = onWalkRequiredTimeFindListener;
+    }
+
+    public DownloadRawData(FindListener.OnBusRequiredTimeFindListener onBusRequiredTimeFindListener) {
+        this.onBusRequiredTimeFindListener = onBusRequiredTimeFindListener;
     }
 
 
@@ -69,6 +74,8 @@ public class DownloadRawData extends AsyncTask<String, Void, Document> {
             onCoordinatesFindListener.parseXML(document);
         }else if(onWalkRequiredTimeFindListener != null){
             onWalkRequiredTimeFindListener.parseXML(document);
+        } else if(onBusRequiredTimeFindListener != null){
+            onBusRequiredTimeFindListener.parseXML(document);
         }
     }
 }

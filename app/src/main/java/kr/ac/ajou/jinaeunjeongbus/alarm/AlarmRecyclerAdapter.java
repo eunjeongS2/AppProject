@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.base.AbstractRecyclerAdapter;
 import kr.ac.ajou.jinaeunjeongbus.base.AbstractViewHolder;
 import kr.ac.ajou.jinaeunjeongbus.database.DBHelper;
@@ -14,7 +16,18 @@ public class AlarmRecyclerAdapter extends AbstractRecyclerAdapter<Alarm> {
 
     private Context context;
     private OnAlarmClickListener onAlarmClickListener;
+    private OnAlarmCheckedChangeListener onAlarmCheckedChangeListener;
     private DBHelper dbHelper;
+
+    @FunctionalInterface
+    public interface OnAlarmCheckedChangeListener {
+        void onCheckedChanged(int position, boolean isChecked);
+    }
+
+    public void setOnAlarmCheckedChangeListener(OnAlarmCheckedChangeListener onAlarmCheckedChangeListener) {
+        this.onAlarmCheckedChangeListener = onAlarmCheckedChangeListener;
+    }
+
 
     public AlarmRecyclerAdapter(Context context, OnAlarmClickListener listener) {
         this.context = context;
@@ -29,6 +42,7 @@ public class AlarmRecyclerAdapter extends AbstractRecyclerAdapter<Alarm> {
     @Override
     public void onBindViewHolder(@NonNull AbstractViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+
         holder.itemView.setOnLongClickListener(v -> {
             int pos = position;
             deleteAlarm(getItem(pos).getArriveTime());

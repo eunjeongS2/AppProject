@@ -24,4 +24,8 @@ public interface FindListener {
         void parseXML(Document document);
     }
 
+    interface OnBusRequiredTimeFindListener {
+        void parseXML(Document document);
+    }
+
 }

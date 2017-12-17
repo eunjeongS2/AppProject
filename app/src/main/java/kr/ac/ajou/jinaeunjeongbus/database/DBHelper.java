@@ -49,8 +49,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         values.put(Alarm.KEY_DEPARTURE_NAME, alarm.getDeparturePlace());
         values.put(Alarm.KEY_DEPARTURE_STOP, alarm.getDepartureStop());
-        values.put(Alarm.KEY_DEPARTURE_NO, alarm.getDepartureNo());
-        values.put(Alarm.KEY_DEPARTURE_ID, alarm.getDepartureId());
+        values.put(Alarm.KEY_DEPARTURE_NO, alarm.getDepartureStopNo());
+        values.put(Alarm.KEY_DEPARTURE_ID, alarm.getDepartureStopId());
         values.put(Alarm.KEY_DESTINATION_NAME, alarm.getDestinationPlace());
         values.put(Alarm.KEY_DESTINATION_STOP, alarm.getDestinationStop());
         values.put(Alarm.KEY_BUS_NAME, alarm.getBusName());
@@ -149,8 +149,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + Alarm.TABLE+ " SET "
                 + Alarm.KEY_DEPARTURE_NAME + " = '"+alarm.getDeparturePlace()+"' , "
                 + Alarm.KEY_DEPARTURE_STOP + " = '"+alarm.getDepartureStop()+"' , "
-                + Alarm.KEY_DEPARTURE_NO + " = '"+alarm.getDepartureNo()+"' , "
-                + Alarm.KEY_DEPARTURE_ID + " = '"+alarm.getDepartureId()+"' , "
+                + Alarm.KEY_DEPARTURE_NO + " = '"+alarm.getDepartureStopNo()+"' , "
+                + Alarm.KEY_DEPARTURE_ID + " = '"+alarm.getDepartureStopId()+"' , "
                 + Alarm.KEY_DESTINATION_NAME + " = '"+alarm.getDestinationPlace()+"' , "
                 + Alarm.KEY_DESTINATION_STOP + " = '"+alarm.getDestinationStop()+"' , "
                 + Alarm.KEY_BUS_NAME + " = '"+alarm.getBusName()+"' , "

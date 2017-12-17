@@ -82,9 +82,6 @@ public class BusStopFinder extends Finder implements FindListener.OnBusStopIdFin
 
 
         }
-        System.out.println("busStopFinder"+addresses.get(0).getAddressLatitude());
-        System.out.println("busStopFinder"+busStops.get(0).getBusStopName());
-
 
         onBusStopLoadListener.onBusStopSearchComplete(busStops);
         onBusStopLoadListener.onBusStopCoordinatesLoad(addresses);

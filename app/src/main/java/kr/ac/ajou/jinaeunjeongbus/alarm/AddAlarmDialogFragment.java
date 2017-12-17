@@ -25,6 +25,7 @@ import java.util.List;
 import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.Address;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusIdFinder;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.BusRequiredTimeFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusStopFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.CoordinatesFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.WalkRequiredTimeFinder;
@@ -55,6 +56,9 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
     private TextView getDepartureStopButton;
     private TextView getDestinationStopButton;
     private TextView getBusButton;
+    private EditText departureRequiredTimeEditText;
+    private EditText busRequiredTimeEditText;
+    private EditText destinationRequiredTimeEditText;
 
     private DBHelper dbHelper;
 
@@ -122,11 +126,17 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         alarmTermEditText = view.findViewById(R.id.alarm_term_editText);
         busNameEditText = view.findViewById(R.id.bus_search_editText);
 
+        departureRequiredTimeEditText = view.findViewById(R.id.departure_required_time_textView);
+        busRequiredTimeEditText = view.findViewById(R.id.stops_required_time_textView);
+        destinationRequiredTimeEditText = view.findViewById(R.id.destination_required_time_textView);
+
+
         getDepartureButton = view.findViewById(R.id.search_departure_btn);
         getDestinationButton = view.findViewById(R.id.search_destination_btn);
         getDepartureStopButton = view.findViewById(R.id.search_departure_stop_btn);
         getDestinationStopButton = view.findViewById(R.id.search_destination_stop_btn);
         getBusButton = view.findViewById(R.id.search_bus_btn);
+
 
         departureStopEditText.setText("신논현역");
         destinationStopEditText.setText("강남역");
@@ -151,8 +161,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             stringId = curAlarm.getArriveTime();
         }
 
-        String[] strings = {};
-
         alarmHour = view.findViewById(R.id.hour_editText);
         Calendar c = Calendar.getInstance();
         getHour = c.get(Calendar.HOUR_OF_DAY);
@@ -164,10 +172,25 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         destinationBusStopAddresses = new ArrayList<>();
 
         departureBusStop = new BusStop();
+        departureBusStop.setBusStopId(null);
         destinationBusStop = new BusStop();
+        destinationBusStop.setBusStopId(null);
 
         busList = new ArrayList<>();
         bus = new Bus();
+        bus.setNumber(null);
+
+        departureAddress = new Address();
+        departureAddress.setAddressName(null);
+
+        departureStopAddress = new Address();
+        departureStopAddress.setAddressName(null);
+
+        destinationAddress = new Address();
+        destinationAddress.setAddressName(null);
+
+        destinationStopAddress = new Address();
+        destinationStopAddress.setAddressName(null);
 
         busStrings = new String[]{};
         departureBusStopStrings = new String[]{};
@@ -179,7 +202,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            departureComputeRequiredTime();
+            computeDepartureRequiredTime();
         });
 
         getDepartureStopButton.setOnClickListener(v ->{
@@ -210,7 +233,9 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
                 departureStopAddress = departureBusStopAddresses.get(i);
                 System.out.println(departureStopAddress.getAddressLatitude());
 
-                departureComputeRequiredTime();
+                computeDepartureRequiredTime();
+                computeBusRequiredTime();
+
             }
 
         });
@@ -221,7 +246,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            destinationComputeRequiredTime();
+            computeDestinationRequiredTime();
 
         });
 
@@ -249,11 +274,15 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
         destinationStopEditText.setOnItemClickListener((adapterView, view12, i, l) -> {
             if(destinationBusStops.size()!=0){
+
                 destinationBusStop = destinationBusStops.get(i);
                 destinationStopAddress = destinationBusStopAddresses.get(i);
+                System.out.println(destinationStopAddress.getAddressLatitude());
 
-                destinationComputeRequiredTime();
+                computeDestinationRequiredTime();
+                computeBusRequiredTime();
             }
+
 
         });
 
@@ -271,21 +300,16 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
         });
 
-
-        Calendar c = Calendar.getInstance();
         getHour = c.get(Calendar.HOUR_OF_DAY);
+
         busNameEditText.setOnItemClickListener((adapterView, view12, i, l) -> {
             if(busList.size()!=0){
                 bus = busList.get(i);
+                computeBusRequiredTime();
+
             }
         });
 
-        try {
-            new CoordinatesFinder(this, "센트럴하이츠정류장").execute();
-            new WalkRequiredTimeFinder(this, walkDepartureAddress, walkDestinationStopAddress).execute();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
         getBusButton.setOnClickListener(v ->{
             try {
                 new BusIdFinder(this, String.valueOf(busNameEditText.getText())).execute();
@@ -384,8 +408,8 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         return alertDialog;
     }
 
-    private void departureComputeRequiredTime(){
-        if(departureAddress !=null && departureStopAddress !=null){
+    private void computeDepartureRequiredTime(){
+        if(departureAddress.getAddressName() !=null && departureStopAddress.getAddressName() !=null){
             try {
                 new WalkRequiredTimeFinder(this, departureAddress, departureStopAddress).execute();
             } catch (UnsupportedEncodingException e) {
@@ -394,10 +418,23 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         }
     }
 
-    private void destinationComputeRequiredTime(){
-        if(destinationStopAddress !=null && destinationAddress !=null) {
+    private void computeDestinationRequiredTime(){
+        if(destinationStopAddress.getAddressName() !=null && destinationAddress.getAddressName() !=null) {
             try {
                 new WalkRequiredTimeFinder(this, destinationStopAddress, destinationAddress).execute();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void computeBusRequiredTime(){
+        if(bus.getNumber() != null && departureBusStop.getBusStopId() != null && destinationBusStop.getBusStopId()!= null) {
+            try {
+//                new BusRequiredTimeFinder(this, bus.getNumber(), departureBusStop.getBusStopId(), destinationBusStop.getBusStopId()).execute();
+                new BusRequiredTimeFinder(this, bus.getId(), "228001174", "203000125").execute();
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -409,25 +446,28 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
     public void onWalkRequiredTimeLoad(String walkDepartureAddressName, String requiredTime) {
         System.out.println("requiredTime ="+requiredTime);
 
+        int requiredTimeInteger = Integer.parseInt(requiredTime)/60+1;
         if(walkDepartureAddressName.equals(departureAddress.getAddressName())){
             departureWalkRequiredTime = requiredTime;
+            departureRequiredTimeEditText.setText(requiredTimeInteger+" 분");
+
         }else if (walkDepartureAddressName.equals(destinationStopAddress.getAddressName())){
             destinationWalkRequiredTime = requiredTime;
+            destinationRequiredTimeEditText.setText(requiredTimeInteger+" 분");
         }
 
     }
 
     @Override
     public void onCoordinatesLoad(Address address) {
-
-        System.out.println("address ="+address.getAddressName()+address.getAddressLatitude()+address.getAddressLongitude());
+        if(address.getAddressName()==null){
+            return;
+        }
 
         if(address.getAddressName().equals(String.valueOf(departurePlaceEditText.getText()))){
             departureAddress = address;
-            System.out.println("1"+ departureAddress.getAddressName());
         }else if(address.getAddressName().equals(String.valueOf(destinationPlaceEditText.getText()))){
             destinationAddress = address;
-            System.out.println("3"+ destinationAddress.getAddressName());
         }
 
     }
@@ -435,11 +475,16 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
     @Override
     public void onBusRequiredTimeLoad(String requiredTime) {
         busRequiredTime = requiredTime;
+        busRequiredTimeEditText.setText(requiredTime+" 분");
     }
 
 
     @Override
     public void onBusStopSearchComplete(List<BusStop> searchResult) {
+        if(searchResult.size()==0){
+            return;
+        }
+
         String strings[] = new String[searchResult.size()];
         System.out.println(searchResult.get(0).getBusStopName());
 
@@ -459,11 +504,13 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
     @Override
     public void onBusStopCoordinatesLoad(List<Address> addressList) {
-        System.out.println("addalarm"+addressList.get(0).getAddressName());
+        if(addressList.size()==0){
+            return;
+        }
 
         if(addressList.get(0).getAddressName().contains(String.valueOf(departureStopEditText.getText()))){
             departureBusStopAddresses = addressList;
-        }else if(addressList.get(0).getAddressName().contains(String.valueOf(departureStopEditText.getText()))){
+        }else if(addressList.get(0).getAddressName().contains(String.valueOf(destinationStopEditText.getText()))){
             destinationBusStopAddresses = addressList;
         }
 
@@ -471,12 +518,15 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
     @Override
     public void onSearchComplete(List<Bus> searchResult) {
+        if(searchResult.size()==0){
+            return;
+        }
+
         busList = searchResult;
         busStrings = new String[searchResult.size()];
 
         for(int i=0; i<searchResult.size(); i++){
             busStrings[i] = searchResult.get(i).getNumber();
-            System.out.println(busStrings[i]);
         }
     }
 

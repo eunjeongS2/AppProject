@@ -14,12 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.BusLocationFinder;
 import kr.ac.ajou.jinaeunjeongbus.database.DBHelper;
 
-public class BusAlarmFragment extends Fragment {
+public class BusAlarmFragment extends Fragment implements OnLocationLoadListener{
 
     private RecyclerView alarmListView;
     private DBHelper dbHelper;
@@ -35,9 +39,7 @@ public class BusAlarmFragment extends Fragment {
         View view = inflater.inflate(R.layout.bus_alarm_fragment, container, false);
         dbHelper = new DBHelper(getActivity());
 
-
         //dbHelper.clearList();
-
         alarmListView = view.findViewById(R.id.bus_alarm_list_view);
 
         setUpRecyclerView();
@@ -53,7 +55,28 @@ public class BusAlarmFragment extends Fragment {
 //
 //        alarmModel.fetchAlarm();
 
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                setBusLocation();
+            }
+        };
+        timer.schedule(timerTask, 0, 1000);
+
         return view;
+    }
+
+    private void setBusLocation(){
+        for(int i=0; i<recyclerAdapter.getItemCount(); i++){
+            try {
+                new BusLocationFinder(this, i, "200000112", "120000059").execute();
+//                new BusLocationFinder(this, recyclerAdapter.getItem(i).getBusId(), recyclerAdapter.getItem(i).getDepartureStopId()).execute();
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setUpRecyclerView() {
@@ -61,24 +84,18 @@ public class BusAlarmFragment extends Fragment {
 
         alarmListView.setLayoutManager(manager);
 
-        recyclerAdapter = new AlarmRecyclerAdapter(getContext(), new OnAlarmClickListener() {
-            @Override
-            public void onClick(int position) {
-                Alarm alarm = recyclerAdapter.getItem(position);
-                AddAlarmDialogFragment dialog = new AddAlarmDialogFragment();
-                dialog.show(getActivity().getFragmentManager(), "a");
-                String id = alarm.getArriveTime();
-                dialog.setAlarm(alarm);
-                dialog.setDialogResult(new OnDialogResultListener() {
-                    @Override
-                    public void onConfirm() {
-                        recyclerAdapter.setItems(dbHelper.findAll());
-                        recyclerAdapter.notifyDataSetChanged();
-                    }
-                });
-
-            }
+        recyclerAdapter = new AlarmRecyclerAdapter(getContext(), position -> {
+            Alarm alarm = recyclerAdapter.getItem(position);
+            AddAlarmDialogFragment dialog = new AddAlarmDialogFragment();
+            dialog.show(getActivity().getFragmentManager(), "a");
+            String id = alarm.getArriveTime();
+            dialog.setAlarm(alarm);
+            dialog.setDialogResult(() -> {
+                recyclerAdapter.setItems(dbHelper.findAll());
+                recyclerAdapter.notifyDataSetChanged();
+            });
         });
+
         alarmListView.setAdapter(recyclerAdapter);
 
         recyclerAdapter.setItems(dbHelper.findAll());
@@ -140,8 +157,16 @@ public class BusAlarmFragment extends Fragment {
 //        recyclerAdapter.notifyDataSetChanged();
 //    }
 
-
     public OnAlarmListener getOnAlarmListener() {
         return onAlarmListener;
+    }
+
+    @Override
+    public void onLocationLoadListener(int alarmPosition, String firstArrive, String secondArrive) {
+        recyclerAdapter.getItem(alarmPosition).setFirstArrive(firstArrive);
+        recyclerAdapter.getItem(alarmPosition).setSecondArrive(secondArrive);
+        System.out.println(firstArrive +","+secondArrive);
+        recyclerAdapter.notifyDataSetChanged();
+
     }
 }

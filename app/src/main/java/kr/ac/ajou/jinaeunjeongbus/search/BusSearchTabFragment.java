@@ -75,7 +75,6 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
 
         try {
             new BusIdFinder(this, message).execute();
-            new BusLocationFinder("200000112", "203000122").execute();
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

@@ -8,27 +8,26 @@ import org.w3c.dom.NodeList;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import kr.ac.ajou.jinaeunjeongbus.alarm.OnLocationLoadListener;
+
 
 public class BusLocationFinder extends Finder implements FindListener.OnBusLocationFindListener {
     private String busId;
     private String busStopId;
-    private String destinationBusStopId;
     private String firstArrive;
     private String secondArrive;
+    private OnLocationLoadListener onLocationLoadListener;
+    private int alarmPosition;
 
     private static final String SEARCH_LOCATION_URL = "http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?ServiceKey=";
     private static final String SEOUL_API_KEY = "DD0pwxcJt7QW0EtFlsbEwQ8w2sWJMfADc%2FMBBK1Ju0RQgbWrVRIb4jDTGAzAI0p3kS1KBYwHpULqXZy%2FX%2Fe7RA%3D%3D";
 
 
-    public BusLocationFinder(String busId, String busStopId) {
-        this.busId = "200000112";
-        this.busStopId = "120000059";
-    }
-
-    public BusLocationFinder(String busId, String busStopId, String destinationBusStopId) {
-        this.busId = "200000112";
-        this.busStopId = "120000059";
-        this.destinationBusStopId = destinationBusStopId;
+    public BusLocationFinder(OnLocationLoadListener onLocationLoadListener, int alarmPosition, String busId, String busStopId) {
+        this.busId = busId;
+        this.busStopId = busStopId;
+        this.onLocationLoadListener = onLocationLoadListener;
+        this.alarmPosition = alarmPosition;
     }
 
 
@@ -62,10 +61,11 @@ public class BusLocationFinder extends Finder implements FindListener.OnBusLocat
                 NodeList arrmsg2Node = firstElement.getElementsByTagName("arrmsg2");
                 secondArrive = arrmsg2Node.item(0).getChildNodes().item(0).getNodeValue();
 
-                System.out.println(firstArrive);
-
             }
         }
+
+        onLocationLoadListener.onLocationLoadListener(alarmPosition ,firstArrive, secondArrive);
+
     }
 
 }

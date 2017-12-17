@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
@@ -18,6 +19,10 @@ class AlarmViewHolder extends AbstractViewHolder<Alarm> {
     private TextView destinationBusStop;
     private TextView time;
     private TextView bus;
+    private TextView firstBusLocation;
+    private TextView secondBusLocation;
+
+
 
     public AlarmViewHolder(ViewGroup parent) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false));
@@ -28,6 +33,10 @@ class AlarmViewHolder extends AbstractViewHolder<Alarm> {
         destinationBusStop = itemView.findViewById(R.id.alarm_destination_bus_stop);
         time = itemView.findViewById(R.id.alarm_time);
         bus = itemView.findViewById(R.id.alarm_bus_list);
+        firstBusLocation = itemView.findViewById(R.id.alarm_bus_first_location);
+        secondBusLocation = itemView.findViewById(R.id.alarm_bus_second_location);
+
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -39,5 +48,8 @@ class AlarmViewHolder extends AbstractViewHolder<Alarm> {
         destinationBusStop.setText(item.getDestinationStop());
         time.setText(item.getArriveTime().substring(0,2) + " : "+ item.getArriveTime().substring(2,4));
         bus.setText(item.getBusName());
+        firstBusLocation.setText(item.getFirstArrive()+" ,");
+        secondBusLocation.setText(item.getSecondArrive());
+
     }
 }

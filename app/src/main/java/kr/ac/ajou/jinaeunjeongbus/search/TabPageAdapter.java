@@ -18,7 +18,6 @@ public class TabPageAdapter extends FragmentStatePagerAdapter {
         this.tabCount = tabCount;
         busSearchTabFragment = new BusSearchTabFragment();
         busStopSearchTabFragment = new BusStopSearchTabFragment();
-//        busSearchTabFragment.setSearchModel(new SearchModel(busSearchTabFragment));
 
     }
 
