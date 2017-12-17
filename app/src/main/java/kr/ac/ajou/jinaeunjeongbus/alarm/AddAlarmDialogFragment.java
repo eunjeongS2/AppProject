@@ -18,9 +18,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.Address;
@@ -51,11 +54,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
     private EditText alarmTermEditText;
     private AutoCompleteTextView busNameEditText;
 
-    private TextView getDepartureButton;
-    private TextView getDestinationButton;
-    private TextView getDepartureStopButton;
-    private TextView getDestinationStopButton;
-    private TextView getBusButton;
     private EditText departureRequiredTimeEditText;
     private EditText busRequiredTimeEditText;
     private EditText destinationRequiredTimeEditText;
@@ -104,6 +102,12 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         this.onDialogResultListener = onDialogResultListener;
     }
 
+    private static String timestamp() {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm", Locale.KOREA);
+        return dateFormat.format(date);
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -111,10 +115,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         LayoutInflater inflater = getActivity().getLayoutInflater();
         @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.add_alarm_fragment, null);
         dbHelper = new DBHelper(getActivity());
-
-        String departureNo;
-        String departureId;
-        String busId;
 
         ImageView closeButton = view.findViewById(R.id.close_button);
         Button checkButton = view.findViewById(R.id.check_button);
@@ -131,11 +131,11 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         destinationRequiredTimeEditText = view.findViewById(R.id.destination_required_time_textView);
 
 
-        getDepartureButton = view.findViewById(R.id.search_departure_btn);
-        getDestinationButton = view.findViewById(R.id.search_destination_btn);
-        getDepartureStopButton = view.findViewById(R.id.search_departure_stop_btn);
-        getDestinationStopButton = view.findViewById(R.id.search_destination_stop_btn);
-        getBusButton = view.findViewById(R.id.search_bus_btn);
+        TextView getDepartureButton = view.findViewById(R.id.search_departure_btn);
+        TextView getDestinationButton = view.findViewById(R.id.search_destination_btn);
+        TextView getDepartureStopButton = view.findViewById(R.id.search_departure_stop_btn);
+        TextView getDestinationStopButton = view.findViewById(R.id.search_destination_stop_btn);
+        TextView getBusButton = view.findViewById(R.id.search_bus_btn);
 
 
         departureStopEditText.setText("신논현역");
@@ -146,20 +146,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         alarmMinute = view.findViewById(R.id.minute_editText);
 
         String stringId = null;
-
-        if (curAlarm != null) {
-
-            departurePlaceEditText.setText(curAlarm.getDeparturePlace());
-            destinationPlaceEditText.setText(curAlarm.getDestinationPlace());
-            departureStopEditText.setText(curAlarm.getDepartureStop());
-            destinationStopEditText.setText(curAlarm.getDestinationStop());
-            alarmTermEditText.setText(curAlarm.getAlarmTerm());
-            busNameEditText.setText(curAlarm.getBusName());
-            alarmHour.setText(curAlarm.getArriveTime().substring(0, 2));
-            alarmMinute.setText(curAlarm.getArriveTime().substring(2, 4));
-
-            stringId = curAlarm.getArriveTime();
-        }
 
         alarmHour = view.findViewById(R.id.hour_editText);
         Calendar c = Calendar.getInstance();
@@ -196,6 +182,40 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         departureBusStopStrings = new String[]{};
         destinationBusStopStrings = new String[]{};
 
+        if (curAlarm != null) {
+
+            departurePlaceEditText.setText(curAlarm.getDeparturePlaceName());
+            departureAddress.setAddressName(curAlarm.getDeparturePlaceName());
+
+            destinationPlaceEditText.setText(curAlarm.getDestinationPlaceName());
+            destinationAddress.setAddressName(curAlarm.getDestinationPlaceName());
+
+            departureStopEditText.setText(curAlarm.getDepartureStop());
+            departureBusStop.setBusStopName(curAlarm.getDepartureStop());
+            departureBusStop.setBusStopId(curAlarm.getDepartureStopId());
+            departureBusStop.setDistinctNumber(curAlarm.getDepartureStopNo());
+
+            destinationStopEditText.setText(curAlarm.getDestinationStop());
+            destinationBusStop.setBusStopName(curAlarm.getDestinationStop());
+            destinationBusStop.setBusStopId(curAlarm.getDepartureStopId());
+            destinationBusStop.setDistinctNumber(curAlarm.getDestinationStopNo());
+
+            alarmTermEditText.setText(curAlarm.getAlarmTerm());
+            busNameEditText.setText(curAlarm.getBusName());
+            bus.setNumber(curAlarm.getBusName());
+            bus.setId(curAlarm.getBusId());
+            alarmHour.setText(curAlarm.getArriveTime().substring(0, 2));
+            alarmMinute.setText(curAlarm.getArriveTime().substring(2, 4));
+            busRequiredTimeEditText.setText(curAlarm.getBusRequiredTime());
+            busRequiredTime = curAlarm.getBusRequiredTime();
+            departureRequiredTimeEditText.setText(curAlarm.getDepartureRequiredTime());
+            departureWalkRequiredTime = curAlarm.getDepartureRequiredTime();
+            destinationRequiredTimeEditText.setText(curAlarm.getDestinationRequiredTime());
+            destinationWalkRequiredTime = curAlarm.getDestinationRequiredTime();
+
+            stringId = curAlarm.getAlarmId();
+        }
+
         getDepartureButton.setOnClickListener(v -> {
             try {
                 new CoordinatesFinder(this, String.valueOf(departurePlaceEditText.getText())).execute();
@@ -203,6 +223,10 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
                 e.printStackTrace();
             }
             computeDepartureRequiredTime();
+
+            if(curAlarm!=null){
+                curAlarm.setDeparturePlaceName(String.valueOf(departurePlaceEditText.getText()));
+            }
         });
 
         getDepartureStopButton.setOnClickListener(v ->{
@@ -236,6 +260,11 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
                 computeDepartureRequiredTime();
                 computeBusRequiredTime();
 
+                if(curAlarm!=null){
+                    curAlarm.setDepartureStop(departureBusStop.getBusStopName());
+                    curAlarm.setDepartureStopId(departureBusStop.getBusStopId());
+                    curAlarm.setDepartureStopNo(departureBusStop.getDistinctNumber());
+                }
             }
 
         });
@@ -247,6 +276,9 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
                 e.printStackTrace();
             }
             computeDestinationRequiredTime();
+            if(curAlarm!=null){
+                curAlarm.setDestinationPlaceName(String.valueOf(destinationPlaceEditText.getText()));
+            }
 
         });
 
@@ -281,8 +313,13 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
                 computeDestinationRequiredTime();
                 computeBusRequiredTime();
-            }
 
+                if(curAlarm!=null){
+                    curAlarm.setDestinationStop(destinationBusStop.getBusStopName());
+                    curAlarm.setDestinationStopId(destinationBusStop.getBusStopId());
+                    curAlarm.setDepartureStopNo(destinationBusStop.getDistinctNumber());
+                }
+            }
 
         });
 
@@ -307,6 +344,10 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
                 bus = busList.get(i);
                 computeBusRequiredTime();
 
+                if(curAlarm!=null){
+                    curAlarm.setBusName(bus.getNumber());
+                    curAlarm.setBusId(bus.getId());
+                }
             }
         });
 
@@ -316,6 +357,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
+            System.out.println("busclick");
         });
 
         alarmHour.addTextChangedListener(new TextWatcher() {
@@ -337,7 +379,8 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         getMinute = c.get(Calendar.MINUTE);
@@ -372,26 +415,31 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             System.out.println(getHour + ":"+getMinute);
 
             @SuppressLint("DefaultLocale") String time = String.format("%02d%02d",getHour,getMinute);
-            if (curAlarm == null) {
-                Alarm alarm = new Alarm(0, String.valueOf(departurePlaceEditText.getText()),
-                        String.valueOf(departureStopEditText.getText()), "3", "4",
-                        String.valueOf(destinationPlaceEditText.getText()), String.valueOf(destinationStopEditText.getText()),
-                        String.valueOf(busNameEditText.getText()), "7", time, String.valueOf(alarmTermEditText.getText()));
-                alarm.setOn(true);
-                dbHelper.createAlarm(alarm);
-                onAlarmListener.onAlarmDialogResult(alarm);
-            } else {
-                curAlarm = new Alarm(0, String.valueOf(departurePlaceEditText.getText()),
-                        String.valueOf(departureStopEditText.getText()), "3", "4",
-                        String.valueOf(destinationPlaceEditText.getText()), String.valueOf(destinationStopEditText.getText()),
-                        String.valueOf(busNameEditText.getText()), "7", time, String.valueOf(alarmTermEditText.getText()));
-                curAlarm.setOn(true);
+            if(departureAddress.getAddressName() != null && departureBusStop.getBusStopId() != null && destinationAddress.getAddressName() != null && destinationBusStop.getBusStopId()!=null && bus.getNumber() !=null){
+                if (curAlarm == null) {
 
-                dbHelper.updateAlarm(finalStringId, curAlarm);
-                onDialogResultListener.onConfirm();
+                    Alarm alarm = new Alarm(timestamp(), departureAddress.getAddressName(),
+                            departureBusStop.getBusStopName(), departureBusStop.getBusStopId(), departureBusStop.getDistinctNumber(),
+                            destinationAddress.getAddressName(),
+                            destinationBusStop.getBusStopName(),
+                            bus.getNumber(), bus.getId(),
+                            time, String.valueOf(alarmTermEditText.getText()),
+                            String.valueOf(busRequiredTimeEditText.getText()), String.valueOf(departureRequiredTimeEditText.getText()), String.valueOf(destinationRequiredTimeEditText.getText()));
+                    alarm.setOn(true);
+
+                    dbHelper.createAlarm(alarm);
+                    onAlarmListener.onAlarmDialogResult(alarm);
+                } else {
+                    curAlarm.setArriveTime(time);
+                    curAlarm.setAlarmTerm(String.valueOf(alarmTermEditText.getText()));
+                    curAlarm.setOn(true);
+                    dbHelper.updateAlarm(finalStringId, curAlarm);
+                    onDialogResultListener.onConfirm();
+
+                }
+                dismiss();
             }
 
-            dismiss();
         });
 
         builder.setView(view);
@@ -409,7 +457,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
     }
 
     private void computeDepartureRequiredTime(){
-        if(departureAddress.getAddressName() !=null && departureStopAddress.getAddressName() !=null){
+        if(departureAddress.getAddressLatitude() !=null && departureStopAddress.getAddressLatitude() !=null){
             try {
                 new WalkRequiredTimeFinder(this, departureAddress, departureStopAddress).execute();
             } catch (UnsupportedEncodingException e) {
@@ -419,7 +467,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
     }
 
     private void computeDestinationRequiredTime(){
-        if(destinationStopAddress.getAddressName() !=null && destinationAddress.getAddressName() !=null) {
+        if(destinationStopAddress.getAddressLatitude() !=null && destinationAddress.getAddressLatitude() !=null) {
             try {
                 new WalkRequiredTimeFinder(this, destinationStopAddress, destinationAddress).execute();
             } catch (UnsupportedEncodingException e) {

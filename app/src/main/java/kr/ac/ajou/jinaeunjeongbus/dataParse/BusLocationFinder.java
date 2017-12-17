@@ -20,7 +20,7 @@ public class BusLocationFinder extends Finder implements FindListener.OnBusLocat
     private int alarmPosition;
 
     private static final String SEARCH_LOCATION_URL = "http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?ServiceKey=";
-    private static final String SEOUL_API_KEY = "DD0pwxcJt7QW0EtFlsbEwQ8w2sWJMfADc%2FMBBK1Ju0RQgbWrVRIb4jDTGAzAI0p3kS1KBYwHpULqXZy%2FX%2Fe7RA%3D%3D";
+    private static final String SEOUL_API_KEY = "%2BiZRN8V4rI%2BGzHUb23Aib8OhPshR5AxVmvZUnkvfJe3Z6rqGrAa3%2Bo%2BU1MvcU%2BOzG6T%2Fc%2FPJiogevEvPZ3Lxpw%3D%3D";
 
 
     public BusLocationFinder(OnLocationLoadListener onLocationLoadListener, int alarmPosition, String busId, String busStopId) {
@@ -39,7 +39,6 @@ public class BusLocationFinder extends Finder implements FindListener.OnBusLocat
     @Override
     public String createUrl() throws UnsupportedEncodingException {
         String urlSearchBusLocation = URLEncoder.encode(busId, "utf-8");
-
         return SEARCH_LOCATION_URL + SEOUL_API_KEY + "&busRouteId=" + urlSearchBusLocation;
     }
 
@@ -63,7 +62,6 @@ public class BusLocationFinder extends Finder implements FindListener.OnBusLocat
 
             }
         }
-
         onLocationLoadListener.onLocationLoadListener(alarmPosition ,firstArrive, secondArrive);
 
     }

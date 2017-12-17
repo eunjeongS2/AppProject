@@ -44,9 +44,8 @@ public class AlarmRecyclerAdapter extends AbstractRecyclerAdapter<Alarm> {
         super.onBindViewHolder(holder, position);
 
         holder.itemView.setOnLongClickListener(v -> {
-            int pos = position;
-            deleteAlarm(getItem(pos).getArriveTime());
-            removeItem(pos);
+            deleteAlarm(getItem(position).getAlarmId());
+            removeItem(position);
             this.notifyDataSetChanged();
             return true;
         });

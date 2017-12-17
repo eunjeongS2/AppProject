@@ -31,6 +31,8 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
     private AlarmRecyclerAdapter recyclerAdapter;
 
     private OnAlarmListener onAlarmListener;
+    private Timer timer;
+
 //    private AlarmModel alarmModel;
 
     @Nullable
@@ -50,19 +52,21 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
             alarmOnOff(getContext(), alarm);
         };
 
+        setBusLocation();
+
 //        alarmModel = new AlarmModel();
 //        alarmModel.setOnAlarmListener(this);
 //
 //        alarmModel.fetchAlarm();
 
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                setBusLocation();
-            }
-        };
-        timer.schedule(timerTask, 0, 1000);
+//        timer = new Timer();
+//        TimerTask timerTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                setBusLocation();
+//            }
+//        };
+//        timer.schedule(timerTask, 2000, 3000);
 
         return view;
     }
@@ -85,12 +89,17 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
         alarmListView.setLayoutManager(manager);
 
         recyclerAdapter = new AlarmRecyclerAdapter(getContext(), position -> {
+//            System.out.println("cancel");
+//            timer.cancel();
+
             Alarm alarm = recyclerAdapter.getItem(position);
             AddAlarmDialogFragment dialog = new AddAlarmDialogFragment();
+
             dialog.show(getActivity().getFragmentManager(), "a");
-            String id = alarm.getArriveTime();
+            String id = alarm.getAlarmId();
             dialog.setAlarm(alarm);
             dialog.setDialogResult(() -> {
+
                 recyclerAdapter.setItems(dbHelper.findAll());
                 recyclerAdapter.notifyDataSetChanged();
             });
@@ -116,7 +125,7 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
         System.out.println(alarm.getArriveTime());
 
         if (!alarm.getOn()) {
-            pendingIntent = PendingIntent.getBroadcast(context, alarm.getAlarmId(), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingIntent = PendingIntent.getBroadcast(context, (int) Long.parseLong(alarm.getAlarmId()), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(pendingIntent);
             System.out.println("cancel");
         } else {
@@ -135,7 +144,7 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
 
             // TERM = 알람 주기
             //alarmIntent.putExtra("TERM", 0);
-            pendingIntent = PendingIntent.getBroadcast(context, alarm.getAlarmId(), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingIntent = PendingIntent.getBroadcast(context, (int) Long.parseLong(alarm.getAlarmId()), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             if (diff >= 0) {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + (24 * 60 * 60 * 1000), pendingIntent);
@@ -165,7 +174,7 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
     public void onLocationLoadListener(int alarmPosition, String firstArrive, String secondArrive) {
         recyclerAdapter.getItem(alarmPosition).setFirstArrive(firstArrive);
         recyclerAdapter.getItem(alarmPosition).setSecondArrive(secondArrive);
-        System.out.println(firstArrive +","+secondArrive);
+//        System.out.println("timer");
         recyclerAdapter.notifyDataSetChanged();
 
     }

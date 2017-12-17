@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
@@ -42,8 +41,8 @@ class AlarmViewHolder extends AbstractViewHolder<Alarm> {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindView(@NonNull Alarm item, int position) {
-        destination.setText(item.getDestinationPlace());
-        departure.setText(item.getDeparturePlace());
+        destination.setText(item.getDestinationPlaceName());
+        departure.setText(item.getDeparturePlaceName());
         departureBusStop.setText(item.getDepartureStop());
         destinationBusStop.setText(item.getDestinationStop());
         time.setText(item.getArriveTime().substring(0,2) + " : "+ item.getArriveTime().substring(2,4));
