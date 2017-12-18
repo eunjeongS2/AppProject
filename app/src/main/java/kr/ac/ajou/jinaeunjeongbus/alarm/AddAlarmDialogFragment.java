@@ -30,7 +30,6 @@ import kr.ac.ajou.jinaeunjeongbus.dataParse.Address;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusIdFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusRequiredTimeFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusStopByRouteFinder;
-import kr.ac.ajou.jinaeunjeongbus.dataParse.BusStopFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.CoordinatesFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.WalkRequiredTimeFinder;
 import kr.ac.ajou.jinaeunjeongbus.database.DBHelper;
@@ -317,6 +316,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
         });
 
+
         getHour = c.get(Calendar.HOUR_OF_DAY);
 
         busNameEditText.setOnItemClickListener((adapterView, view12, i, l) -> {
@@ -402,7 +402,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             System.out.println(getHour + ":"+getMinute);
 
             @SuppressLint("DefaultLocale") String time = String.format("%02d%02d",getHour,getMinute);
-            if(departureAddress.getAddressName() != null && departureBusStop.getBusStopId() != null && destinationAddress.getAddressName() != null && destinationBusStop.getBusStopId()!=null && bus.getNumber() !=null){
+            //if(departureAddress.getAddressName() != null && departureBusStop.getBusStopId() != null && destinationAddress.getAddressName() != null && destinationBusStop.getBusStopId()!=null && bus.getNumber() !=null){
                 if (curAlarm == null) {
 
                     Alarm alarm = new Alarm(timestamp(), departureAddress.getAddressName(),
@@ -412,20 +412,20 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
                             bus.getNumber(), bus.getId(),
                             time, String.valueOf(alarmTermEditText.getText()),
                             String.valueOf(busRequiredTimeEditText.getText()), String.valueOf(departureRequiredTimeEditText.getText()), String.valueOf(destinationRequiredTimeEditText.getText()));
-                    alarm.setOn(true);
+                    alarm.setOn(0);
 
                     dbHelper.createAlarm(alarm);
                     onAlarmListener.onAlarmDialogResult(alarm);
                 } else {
                     curAlarm.setArriveTime(time);
                     curAlarm.setAlarmTerm(String.valueOf(alarmTermEditText.getText()));
-                    curAlarm.setOn(true);
+                    curAlarm.setOn(0);
                     dbHelper.updateAlarm(finalStringId, curAlarm);
                     onDialogResultListener.onConfirm();
 
                 }
                 dismiss();
-            }
+            //}
 
         });
 

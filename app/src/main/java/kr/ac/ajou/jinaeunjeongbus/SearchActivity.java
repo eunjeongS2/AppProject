@@ -57,7 +57,7 @@ public class SearchActivity extends AppCompatActivity {
                         if (tabLayout.getSelectedTabPosition() == 0) {
                             BusSearchTabFragment fragment = (BusSearchTabFragment) pageAdapter.getItem(tabLayout.getSelectedTabPosition());
                             fragment.query(message);
-                        }else if (tabLayout.getSelectedTabPosition() == 1){
+                        } else if (tabLayout.getSelectedTabPosition() == 1) {
                             BusStopSearchTabFragment fragment = (BusStopSearchTabFragment) pageAdapter.getItem(tabLayout.getSelectedTabPosition());
                             fragment.query(message);
                         }

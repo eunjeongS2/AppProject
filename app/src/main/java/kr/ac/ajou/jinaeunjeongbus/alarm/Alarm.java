@@ -21,7 +21,6 @@ public class Alarm {
     public static final String KEY_DESTINATION_REQUIRED_TIME = "destinationRequiredTime";
 
 
-
     private String alarmId;
     private String departurePlaceName;
 //    private String departurePlaceLongitude;
@@ -43,7 +42,7 @@ public class Alarm {
     private String busId;
     private String arriveTime;
     private String alarmTerm;
-    private Boolean isOn;
+    private int isOn;
 
     private String busRequiredTime;
     private String departureRequiredTime;
@@ -181,11 +180,11 @@ public class Alarm {
         return alarmId;
     }
 
-    public void setOn(Boolean on) {
+    public void setOn(int on) {
         isOn = on;
     }
 
-    public Boolean getOn() {
+    public int getOn() {
         return isOn;
     }
 

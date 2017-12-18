@@ -19,18 +19,17 @@ import kr.ac.ajou.jinaeunjeongbus.alarm.BusStop;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.Address;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusStopFinder;
 
-public class BusStopSearchTabFragment extends Fragment implements OnBusStopLoadListener, OnBusAlarmCheckListener{
+public class BusStopSearchTabFragment extends Fragment implements OnBusStopLoadListener, OnBusAlarmCheckListener {
 
     private static final String TAG = "StopSearchTabFragment";
 
     private RecyclerView busStopSearchListView;
 
     private TextView emptySearchResultText;
-    //    private SearchModel searchModel;
     private BusStopSearchResultAdapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bus_stop_search_tab_fragment, container, false);
         busStopSearchListView = view.findViewById(R.id.search_bus_stop_result_list_view);
         emptySearchResultText = view.findViewById(R.id.text_no_search_bus_stop_result);
@@ -39,21 +38,13 @@ public class BusStopSearchTabFragment extends Fragment implements OnBusStopLoadL
 
         setUpSearchListView();
 
-//        searchModel.fetchBusList();
-
-
         return view;
-
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
-
-//    public void setSearchModel(SearchModel searchModel) {
-//        this.searchModel = searchModel;
-//    }
 
     private void setUpSearchListView() {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -73,28 +64,15 @@ public class BusStopSearchTabFragment extends Fragment implements OnBusStopLoadL
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-//        searchModel.query(message);
         emptySearchResultText.setVisibility(View.GONE);
 
-
     }
-
-//    @Override
-//    public void onLoad(List<BusStop> busStopList) {
-//        if(busStopList.size() == 0) {
-//            emptySearchResultText.setVisibility(View.VISIBLE);
-//            return;
-//        }
-//
-//        adapter.setItems(busStopList);
-//        adapter.notifyDataSetChanged();
-//    }
 
     @Override
     public void onBusStopSearchComplete(List<BusStop> searchResult) {
         Log.d(TAG, "onBusStopSearchComplete: " + searchResult.size());
 
-        if(searchResult.size() == 0) {
+        if (searchResult.size() == 0) {
             emptySearchResultText.setVisibility(View.VISIBLE);
             return;
         }

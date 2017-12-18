@@ -22,7 +22,6 @@ public class BusLocationFinder extends Finder implements FindListener.OnBusLocat
     private static final String SEARCH_LOCATION_URL = "http://ws.bus.go.kr/api/rest/arrive/getArrInfoByRouteAll?ServiceKey=";
     private static final String SEOUL_API_KEY = "%2BiZRN8V4rI%2BGzHUb23Aib8OhPshR5AxVmvZUnkvfJe3Z6rqGrAa3%2Bo%2BU1MvcU%2BOzG6T%2Fc%2FPJiogevEvPZ3Lxpw%3D%3D";
 
-
     public BusLocationFinder(OnLocationLoadListener onLocationLoadListener, int alarmPosition, String busId, String busStopId) {
         this.busId = busId;
         this.busStopId = busStopId;
@@ -47,14 +46,14 @@ public class BusLocationFinder extends Finder implements FindListener.OnBusLocat
         NodeList nodeList = document.getElementsByTagName("itemList");
         //arrmsg1 : 9분7초후[5번째 전] arrmsg2
 
-        for(int i = 0; i< nodeList.getLength(); i++) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
 
             Node node = nodeList.item(i);
             Element firstElement = (Element) node;
 
             NodeList busStopIdNode = firstElement.getElementsByTagName("stId");
 
-            if(busStopIdNode.item(0).getChildNodes().item(0).getNodeValue().equals(busStopId)){
+            if (busStopIdNode.item(0).getChildNodes().item(0).getNodeValue().equals(busStopId)) {
                 NodeList arrmsg1Node = firstElement.getElementsByTagName("arrmsg1");
                 firstArrive = arrmsg1Node.item(0).getChildNodes().item(0).getNodeValue();
                 NodeList arrmsg2Node = firstElement.getElementsByTagName("arrmsg2");
@@ -62,7 +61,7 @@ public class BusLocationFinder extends Finder implements FindListener.OnBusLocat
 
             }
         }
-        onLocationLoadListener.onLocationLoadListener(alarmPosition ,firstArrive, secondArrive);
+        onLocationLoadListener.onLocationLoadListener(alarmPosition, firstArrive, secondArrive);
 
     }
 

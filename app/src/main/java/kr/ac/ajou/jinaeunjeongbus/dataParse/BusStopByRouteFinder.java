@@ -62,7 +62,7 @@ public class BusStopByRouteFinder extends Finder implements FindListener.OnBusSt
         NodeList nodeList = document.getElementsByTagName("itemList");
 
 
-        for(int i = 0; i< nodeList.getLength(); i++) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
 
             Node node = nodeList.item(i);
             Element firstElement = (Element) node;

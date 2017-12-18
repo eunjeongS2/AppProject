@@ -11,27 +11,7 @@ public class Bus {
     private String timeInfo;
     private String termInfo;
 
-    public Bus(){
-    }
-
-    public Bus(String number, String description) {
-        this.number = number;
-        this.description = description;
-
-    }
-    public Bus(String number, String description, String local, String route, String timeInfo, String termInfo) {
-        this.number = number;
-        this.description = description;
-        this.local = local;
-        this.route = route;
-        this.timeInfo = timeInfo;
-        this.termInfo = termInfo;
-    }
-
-    public Bus(String number, String description, String position) {
-        this.number = number;
-        this.description = description;
-        this.position = position;
+    public Bus() {
     }
 
     public String getId() {

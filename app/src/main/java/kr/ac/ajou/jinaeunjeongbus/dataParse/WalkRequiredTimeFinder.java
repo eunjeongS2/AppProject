@@ -10,7 +10,7 @@ import java.net.URLEncoder;
 
 import kr.ac.ajou.jinaeunjeongbus.alarm.OnWalkRequiredTimeLoadListener;
 
-public class WalkRequiredTimeFinder extends Finder implements FindListener.OnWalkRequiredTimeFindListener{
+public class WalkRequiredTimeFinder extends Finder implements FindListener.OnWalkRequiredTimeFindListener {
 
     private static final String WALK_REQUIRED_TIME_FIND_URL = "https://api2.sktelecom.com/tmap/routes/pedestrian?version=1&format=xml";
     private static final String TMAP_KEY = "0615e827-7bbe-4792-b9ae-1a17265bc8d3";
@@ -26,7 +26,6 @@ public class WalkRequiredTimeFinder extends Finder implements FindListener.OnWal
 
     private OnWalkRequiredTimeLoadListener onWalkRequiredTimeLoadListener;
 
-
     public WalkRequiredTimeFinder(OnWalkRequiredTimeLoadListener onWalkRequiredTimeLoadListener, Address walkDepartureAddress, Address walkDestinationAddress) {
         this.onWalkRequiredTimeLoadListener = onWalkRequiredTimeLoadListener;
         this.walkDepartureAddressName = walkDepartureAddress.getAddressName();
@@ -36,7 +35,6 @@ public class WalkRequiredTimeFinder extends Finder implements FindListener.OnWal
         this.walkDestinationAddressName = walkDestinationAddress.getAddressName();
         this.walkDestinationAddressLatitude = walkDestinationAddress.getAddressLatitude();
         this.walkDestinationAddressLongitude = walkDestinationAddress.getAddressLongitude();
-
 
     }
 
@@ -52,9 +50,9 @@ public class WalkRequiredTimeFinder extends Finder implements FindListener.OnWal
         String urlEnd = URLEncoder.encode(walkDestinationAddressName, "utf-8");
 
 
-        return WALK_REQUIRED_TIME_FIND_URL +"&startX="+ walkDepartureAddressLongitude +"&startY="+ walkDepartureAddressLatitude
-                +"&endX="+ walkDestinationAddressLongitude +"&endY="+ walkDestinationAddressLatitude +"&startName="+urlStart+"&endName="+urlEnd
-                + SETTING_URL+"&appKey="+TMAP_KEY;
+        return WALK_REQUIRED_TIME_FIND_URL + "&startX=" + walkDepartureAddressLongitude + "&startY=" + walkDepartureAddressLatitude
+                + "&endX=" + walkDestinationAddressLongitude + "&endY=" + walkDestinationAddressLatitude + "&startName=" + urlStart + "&endName=" + urlEnd
+                + SETTING_URL + "&appKey=" + TMAP_KEY;
     }
 
     @Override
@@ -64,7 +62,7 @@ public class WalkRequiredTimeFinder extends Finder implements FindListener.OnWal
         NodeList nodeList = document.getElementsByTagName("Document");
 
 
-        for(int i = 0; i< nodeList.getLength(); i++) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
 
             Node node = nodeList.item(i);
             Element firstElement = (Element) node;

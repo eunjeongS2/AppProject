@@ -326,11 +326,11 @@
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:text="도착예정시간"/>
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/text_departure_stop"
-            android:paddingHorizontal="95dp"
+            android:layout_gravity="center_horizontal"
             >
             <EditText
                 android:id="@+id/hour_editText"
@@ -340,13 +340,16 @@
                 android:textSize="40sp"
                 android:textColor="@android:color/black"
                 android:inputType="number"
+                android:layout_toStartOf="@id/time_divider"
                 android:hint="00"/>
             <TextView
+                android:id="@+id/time_divider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:textSize="40sp"
                 android:textColor="@android:color/black"
+                android:layout_centerHorizontal="true"
                 android:text=":"/>
             <EditText
                 android:id="@+id/minute_editText"
@@ -356,8 +359,9 @@
                 android:textSize="40sp"
                 android:textColor="@android:color/black"
                 android:inputType="number"
+                android:layout_toEndOf="@id/time_divider"
                 android:hint="00"/>
-        </LinearLayout>
+        </RelativeLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

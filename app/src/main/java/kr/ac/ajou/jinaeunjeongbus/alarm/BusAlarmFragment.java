@@ -13,11 +13,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.List;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusLocationFinder;
@@ -32,8 +34,6 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
 
     private OnAlarmListener onAlarmListener;
     private Timer timer;
-
-//    private AlarmModel alarmModel;
 
     @Nullable
     @Override
@@ -54,11 +54,6 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
 
         setBusLocation();
 
-//        alarmModel = new AlarmModel();
-//        alarmModel.setOnAlarmListener(this);
-//
-//        alarmModel.fetchAlarm();
-
 //        timer = new Timer();
 //        TimerTask timerTask = new TimerTask() {
 //            @Override
@@ -74,8 +69,8 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
     private void setBusLocation(){
         for(int i=0; i<recyclerAdapter.getItemCount(); i++){
             try {
-                new BusLocationFinder(this, i, "200000112", "120000059").execute();
-//                new BusLocationFinder(this, recyclerAdapter.getItem(i).getBusId(), recyclerAdapter.getItem(i).getDepartureStopId()).execute();
+//                new BusLocationFinder(this, i, "200000112", "120000059").execute();
+                new BusLocationFinder(this, i, recyclerAdapter.getItem(i).getBusId(), recyclerAdapter.getItem(i).getDepartureStopId()).execute();
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -96,20 +91,42 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
             AddAlarmDialogFragment dialog = new AddAlarmDialogFragment();
 
             dialog.show(getActivity().getFragmentManager(), "a");
-            String id = alarm.getAlarmId();
             dialog.setAlarm(alarm);
             dialog.setDialogResult(() -> {
-
                 recyclerAdapter.setItems(dbHelper.findAll());
                 recyclerAdapter.notifyDataSetChanged();
             });
         });
+        recyclerAdapter = new AlarmRecyclerAdapter(getContext(), new OnAlarmClickListener() {
+            @Override
+            public void onClick(int position) {
+                Alarm alarm = recyclerAdapter.getItem(position);
+                AddAlarmDialogFragment dialog = new AddAlarmDialogFragment();
+                dialog.show(getActivity().getFragmentManager(), "a");
+                dialog.setAlarm(alarm);
+                dialog.setDialogResult(() -> {
+                    recyclerAdapter.setItems(dbHelper.findAll());
+                    recyclerAdapter.notifyDataSetChanged();
+                });
+            }
+        });
 
         alarmListView.setAdapter(recyclerAdapter);
 
-        recyclerAdapter.setItems(dbHelper.findAll());
+        List<Alarm> alarms = dbHelper.findAll();
+        recyclerAdapter.setItems(alarms);
         recyclerAdapter.notifyDataSetChanged();
 
+        recyclerAdapter.setOnAlarmCheckedChangeListener((position, isChecked) -> {
+            Toast.makeText(getContext(),"Alarm Update "+position+isChecked,Toast.LENGTH_SHORT).show();
+            System.out.println(position);
+            Alarm curAlarm = alarms.get(position);
+            //1:true 0:false
+            curAlarm.setOn(isChecked ? 1 : 0);
+            System.out.println(curAlarm.getOn());
+            dbHelper.updateAlarm(curAlarm.getArriveTime(),curAlarm);
+            alarmOnOff(getContext(),curAlarm);
+        });
     }
 
     public void alarmOnOff(Context context, Alarm alarm) {
@@ -118,53 +135,47 @@ public class BusAlarmFragment extends Fragment implements OnLocationLoadListener
         if (alarmManager == null)
             return;
 
-        //       Intent alarmIntent = new Intent("android.intent.action.ALARM_START");
-        Intent alarmIntent = new Intent(this.getActivity(), AlarmReceiver.class);
+        Intent alarmIntent = new Intent(this.getActivity(),AlarmReceiver.class);
         PendingIntent pendingIntent;
 
         System.out.println(alarm.getArriveTime());
 
-        if (!alarm.getOn()) {
-            pendingIntent = PendingIntent.getBroadcast(context, (int) Long.parseLong(alarm.getAlarmId()), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (alarm.getOn() == 0) {
+            pendingIntent = PendingIntent.getBroadcast(context, (int) Long.parseLong(alarm.getAlarmId()), alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.cancel(pendingIntent);
             System.out.println("cancel");
         } else {
             String hour = alarm.getArriveTime().substring(0, 2);
             String min = alarm.getArriveTime().substring(2, 4);
 
-            System.out.println(hour);
-            System.out.println(min);
+            int requiredTime = Integer.parseInt(alarm.getBusRequiredTime().split(" ")[0])
+                    + Integer.parseInt(alarm.getDepartureRequiredTime().split(" ")[0])
+                    + Integer.parseInt(alarm.getDestinationRequiredTime().split(" ")[0]);
+            int curHour = Integer.parseInt(hour) - requiredTime/60;
+            int curMin = Integer.parseInt(min) - requiredTime%60;
 
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour));
-            calendar.set(Calendar.MINUTE, Integer.parseInt(min));
+            calendar.set(Calendar.HOUR_OF_DAY, curHour);
+            calendar.set(Calendar.MINUTE, curMin - Integer.parseInt(alarm.getAlarmTerm()));
             calendar.set(Calendar.SECOND, 0);
 
-            int diff = (int) (Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis());
+            alarmIntent.putExtra("BusInfo", alarm.getFirstArrive());
 
-            // TERM = 알람 주기
-            //alarmIntent.putExtra("TERM", 0);
+            int diff = (int) (Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis());
             pendingIntent = PendingIntent.getBroadcast(context, (int) Long.parseLong(alarm.getAlarmId()), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             if (diff >= 0) {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + (24 * 60 * 60 * 1000), pendingIntent);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis() + (24 * 60 * 60 * 1000), Integer.parseInt(alarm.getAlarmTerm()),pendingIntent);
+
             } else {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(), Integer.parseInt(alarm.getAlarmTerm()),pendingIntent);
             }
 
         }
 
     }
-
-//    @Override
-//    public void onFetchAlarm(List<Alarm> alarmList) {
-//
-//        alarmList.clear();
-//        alarmList.addAll(dbHelper.findAll());
-//
-//        recyclerAdapter.setItems(alarmList);
-//        recyclerAdapter.notifyDataSetChanged();
-//    }
 
     public OnAlarmListener getOnAlarmListener() {
         return onAlarmListener;

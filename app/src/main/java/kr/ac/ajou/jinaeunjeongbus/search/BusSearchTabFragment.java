@@ -28,11 +28,10 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
     private RecyclerView busSearchListView;
 
     private TextView emptySearchResultText;
-//    private SearchModel searchModel;
     private BusSearchResultAdapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bus_search_tab_fragment, container, false);
 
         busSearchListView = view.findViewById(R.id.search_bus_result_list_view);
@@ -43,10 +42,6 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
         setUpSearchListView();
         Log.d(TAG, "onCreateView: ");
 
-
-//        searchModel.fetchBusList();
-
-
         return view;
 
     }
@@ -56,10 +51,6 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
         super.onDestroyView();
         Log.d(TAG, "onDestroyView: ");
     }
-
-//    public void setSearchModel(SearchModel searchModel) {
-//        this.searchModel = searchModel;
-//    }
 
     private void setUpSearchListView() {
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -79,9 +70,7 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-//        searchModel.query(message);
         emptySearchResultText.setVisibility(View.GONE);
-
 
     }
 
@@ -96,23 +85,10 @@ public class BusSearchTabFragment extends Fragment implements OnBusAlarmCheckLis
 
     }
 
-//    @Override
-//    public void onLoad(List<Bus> busList) {
-//        if(busList.size() == 0) {
-//            emptySearchResultText.setVisibility(View.VISIBLE);
-//            return;
-//        }
-//
-//        adapter.setItems(busList);
-//        adapter.notifyDataSetChanged();
-//
-//
-//    }
-
     @Override
     public void onSearchComplete(List<Bus> searchResult) {
         Log.d(TAG, "onBusStopSearchComplete: " + searchResult.size());
-        if(searchResult.size() == 0) {
+        if (searchResult.size() == 0) {
             emptySearchResultText.setVisibility(View.VISIBLE);
             return;
         }

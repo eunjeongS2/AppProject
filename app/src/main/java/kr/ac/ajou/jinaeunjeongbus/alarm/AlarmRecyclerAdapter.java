@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import kr.ac.ajou.jinaeunjeongbus.R;
@@ -24,10 +25,10 @@ public class AlarmRecyclerAdapter extends AbstractRecyclerAdapter<Alarm> {
         void onCheckedChanged(int position, boolean isChecked);
     }
 
+
     public void setOnAlarmCheckedChangeListener(OnAlarmCheckedChangeListener onAlarmCheckedChangeListener) {
         this.onAlarmCheckedChangeListener = onAlarmCheckedChangeListener;
     }
-
 
     public AlarmRecyclerAdapter(Context context, OnAlarmClickListener listener) {
         this.context = context;
@@ -43,6 +44,7 @@ public class AlarmRecyclerAdapter extends AbstractRecyclerAdapter<Alarm> {
     public void onBindViewHolder(@NonNull AbstractViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
 
+        CheckBox alarmCheckBox = holder.itemView.findViewById(R.id.item_bus_alarm_check);
         holder.itemView.setOnLongClickListener(v -> {
             deleteAlarm(getItem(position).getAlarmId());
             removeItem(position);
@@ -50,10 +52,12 @@ public class AlarmRecyclerAdapter extends AbstractRecyclerAdapter<Alarm> {
             return true;
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onAlarmClickListener.onClick(position);
+        alarmCheckBox.setChecked(getItem(position).getOn() == 1);
+        holder.itemView.setOnClickListener(view -> onAlarmClickListener.onClick(position));
+
+        alarmCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(onAlarmCheckedChangeListener != null) {
+                onAlarmCheckedChangeListener.onCheckedChanged(position, b);
             }
         });
     }
@@ -64,9 +68,4 @@ public class AlarmRecyclerAdapter extends AbstractRecyclerAdapter<Alarm> {
         dbHelper.deleteAlarm(id);
     }
 
-    public void updateAlarm(String stringId, Alarm alarm) {
-        if (dbHelper == null)
-            dbHelper = new DBHelper(context);
-        dbHelper.updateAlarm(stringId, alarm);
-    }
 }

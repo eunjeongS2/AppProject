@@ -22,16 +22,13 @@ import kr.ac.ajou.jinaeunjeongbus.alarm.OnCoordinatesLoadListener;
 // &appKey=0615e827-7bbe-4792-b9ae-1a17265bc8d3
 
 
-public class CoordinatesFinder extends Finder implements FindListener.OnCoordinatesFindListener{
+public class CoordinatesFinder extends Finder implements FindListener.OnCoordinatesFindListener {
 
     private static final String COORDINATES_FIND_URL = "https://api2.sktelecom.com/tmap/geo/fullAddrGeo?version=1&format=xml&callback=result&addressFlag=F01&coordType=WGS84GEO&fullAddr=";
     private static final String TMAP_KEY = "0615e827-7bbe-4792-b9ae-1a17265bc8d3";
 
-
     private OnCoordinatesLoadListener onCoordinatesLoadListener;
     private String addressName;
-
-
 
     public CoordinatesFinder(OnCoordinatesLoadListener onCoordinatesLoadListener, String addressName) {
         this.onCoordinatesLoadListener = onCoordinatesLoadListener;
@@ -47,7 +44,7 @@ public class CoordinatesFinder extends Finder implements FindListener.OnCoordina
     public String createUrl() throws UnsupportedEncodingException {
         String urlSearchAddressName = URLEncoder.encode(addressName, "utf-8");
 
-        return COORDINATES_FIND_URL+urlSearchAddressName+"&appKey="+TMAP_KEY;
+        return COORDINATES_FIND_URL + urlSearchAddressName + "&appKey=" + TMAP_KEY;
     }
 
     @Override
@@ -56,7 +53,7 @@ public class CoordinatesFinder extends Finder implements FindListener.OnCoordina
         String latitude = "";
         String longitude = "";
 
-        for(int i = 0; i< nodeList.getLength(); i++) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
 
             Node node = nodeList.item(i);
             Element firstElement = (Element) node;

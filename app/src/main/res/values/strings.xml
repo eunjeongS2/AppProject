@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">BusWang</string>
     <string name="search">검색</string>
     <string name="add">추가</string>
     <string name="hint_bus">버스 검색</string>

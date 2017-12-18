@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private BusAlarmFragment mediaNoticeFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        View headerView =  navigationView.getHeaderView(0);
+        View headerView = navigationView.getHeaderView(0);
 
         navigationView.setNavigationItemSelectedListener(this);
 

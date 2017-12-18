@@ -9,5 +9,4 @@ import kr.ac.ajou.jinaeunjeongbus.dataParse.Address;
 public interface OnBusStopLoadListener {
     void onBusStopSearchComplete(List<BusStop> searchResult);
     void onBusStopCoordinatesLoad(List<Address> addressList);
-
 }

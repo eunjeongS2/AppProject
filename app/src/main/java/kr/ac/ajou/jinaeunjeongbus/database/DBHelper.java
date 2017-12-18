@@ -19,13 +19,13 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     public DBHelper(Context context) {
-        super(context, DATABASE_NAME,null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE "
-                + Alarm.TABLE+ "("
+                + Alarm.TABLE + "("
                 + Alarm.KEY_ID + " TEXT, "
                 + Alarm.KEY_DEPARTURE_NAME + " TEXT, "
                 + Alarm.KEY_DEPARTURE_STOP + " TEXT, "
@@ -37,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + Alarm.KEY_BUS_ID + " TEXT, "
                 + Alarm.KEY_DESTINATION_TIME + " TEXT, "
                 + Alarm.KEY_ALARM_TERM + " TEXT, "
-                + Alarm.KEY_ALARM_ISON + " BOOL, "
+                + Alarm.KEY_ALARM_ISON + " INTEGER, "
                 + Alarm.KEY_BUS_REQUIRED_TIME + " TEXT, "
                 + Alarm.KEY_DEPARTURE_REQUIRED_TIME + " TEXT, "
                 + Alarm.KEY_DESTINATION_REQUIRED_TIME + " TEXT" + ")";
@@ -46,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
         System.out.println("데이터베이스 생성");
     }
 
-    public void createAlarm(Alarm alarm){
+    public void createAlarm(Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -90,7 +90,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         boolean found = cursor.moveToNext();
 
-        if(!found) return null;
+        if (!found) return null;
 
         String alarmId = cursor.getString(0);
         String departurePlace = cursor.getString(1);
@@ -103,8 +103,8 @@ public class DBHelper extends SQLiteOpenHelper {
         String busId = cursor.getString(8);
         String arriveTime = cursor.getString(9);
         String alarmTerm = cursor.getString(10);
-        Boolean alarmIsOn = cursor.getInt(11) > 0;
-        String busRequiredTime= cursor.getString(12);
+        int alarmIsOn = cursor.getInt(11);
+        String busRequiredTime = cursor.getString(12);
         String departureRequiredTime = cursor.getString(13);
         String destinationRequiredTime = cursor.getString(14);
 
@@ -112,14 +112,14 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
 
         Alarm alarm = new Alarm(alarmId, departurePlace, departureStop, departureNo
-                , departureId, destinationPlace, destinationStop, busName, busId,arriveTime, alarmTerm,
+                , departureId, destinationPlace, destinationStop, busName, busId, arriveTime, alarmTerm,
                 busRequiredTime, departureRequiredTime, destinationRequiredTime);
         alarm.setOn(alarmIsOn);
 
         return alarm;
     }
 
-    public List<Alarm> findAll(){
+    public List<Alarm> findAll() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] columns = {Alarm.KEY_ID, Alarm.KEY_DEPARTURE_NAME,
@@ -135,7 +135,7 @@ public class DBHelper extends SQLiteOpenHelper {
         List<Alarm> alarms = new ArrayList<>();
 
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             String alarmId = cursor.getString(0);
             String departurePlace = cursor.getString(1);
             String departureStop = cursor.getString(2);
@@ -147,13 +147,13 @@ public class DBHelper extends SQLiteOpenHelper {
             String busId = cursor.getString(8);
             String arriveTime = cursor.getString(9);
             String alarmTerm = cursor.getString(10);
-            Boolean alarmIsOn = false;
-            String busRequiredTime= cursor.getString(12);
+            int alarmIsOn = cursor.getInt(11);
+            String busRequiredTime = cursor.getString(12);
             String departureRequiredTime = cursor.getString(13);
             String destinationRequiredTime = cursor.getString(14);
 
             Alarm alarm = new Alarm(alarmId, departurePlace, departureStop, departureNo
-            , departureId, destinationPlace, destinationStop, busName, busId,arriveTime, alarmTerm,
+                    , departureId, destinationPlace, destinationStop, busName, busId, arriveTime, alarmTerm,
                     busRequiredTime, departureRequiredTime, destinationRequiredTime);
 
             alarm.setOn(alarmIsOn);
@@ -167,23 +167,21 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String UPDATE_TABLE = "UPDATE "
-                + Alarm.TABLE+ " SET "
-                + Alarm.KEY_DEPARTURE_NAME + " = '"+alarm.getDeparturePlaceName()+"' , "
-                + Alarm.KEY_DEPARTURE_STOP + " = '"+alarm.getDepartureStop()+"' , "
-                + Alarm.KEY_DEPARTURE_NO + " = '"+alarm.getDepartureStopNo()+"' , "
-                + Alarm.KEY_DEPARTURE_ID + " = '"+alarm.getDepartureStopId()+"' , "
-                + Alarm.KEY_DESTINATION_NAME + " = '"+alarm.getDestinationPlaceName()+"' , "
-                + Alarm.KEY_DESTINATION_STOP + " = '"+alarm.getDestinationStop()+"' , "
-                + Alarm.KEY_BUS_NAME + " = '"+alarm.getBusName()+"' , "
-                + Alarm.KEY_BUS_ID + " = '"+alarm.getBusId()+"' , "
-                + Alarm.KEY_DESTINATION_TIME + " = '"+alarm.getArriveTime()+"' , "
-                + Alarm.KEY_ALARM_TERM + " = '"+alarm.getAlarmTerm()+"' , "
-                + Alarm.KEY_ALARM_ISON + " = '" + alarm.getOn()+"' , "
-                + Alarm.KEY_BUS_REQUIRED_TIME + " = '" + alarm.getBusRequiredTime()+"' , "
-                + Alarm.KEY_DEPARTURE_REQUIRED_TIME + " = '" + alarm.getDepartureRequiredTime()+"' , "
+                + Alarm.TABLE + " SET "
+                + Alarm.KEY_DEPARTURE_NAME + " = '" + alarm.getDeparturePlaceName() + "' , "
+                + Alarm.KEY_DEPARTURE_STOP + " = '" + alarm.getDepartureStop() + "' , "
+                + Alarm.KEY_DEPARTURE_NO + " = '" + alarm.getDepartureStopNo() + "' , "
+                + Alarm.KEY_DEPARTURE_ID + " = '" + alarm.getDepartureStopId() + "' , "
+                + Alarm.KEY_DESTINATION_NAME + " = '" + alarm.getDestinationPlaceName() + "' , "
+                + Alarm.KEY_DESTINATION_STOP + " = '" + alarm.getDestinationStop() + "' , "
+                + Alarm.KEY_BUS_NAME + " = '" + alarm.getBusName() + "' , "
+                + Alarm.KEY_BUS_ID + " = '" + alarm.getBusId() + "' , "
+                + Alarm.KEY_DESTINATION_TIME + " = '" + alarm.getArriveTime() + "' , "
+                + Alarm.KEY_ALARM_TERM + " = '" + alarm.getAlarmTerm() + "' , "
+                + Alarm.KEY_ALARM_ISON + " = '" + alarm.getOn() + "' , "
+                + Alarm.KEY_BUS_REQUIRED_TIME + " = '" + alarm.getBusRequiredTime() + "' , "
+                + Alarm.KEY_DEPARTURE_REQUIRED_TIME + " = '" + alarm.getDepartureRequiredTime() + "' , "
                 + Alarm.KEY_DESTINATION_REQUIRED_TIME + " = '" + alarm.getDepartureRequiredTime() + "'"
-
-
                 + " WHERE " + Alarm.KEY_ID + " = '" + arriveID + "'";
 
         db.execSQL(UPDATE_TABLE);

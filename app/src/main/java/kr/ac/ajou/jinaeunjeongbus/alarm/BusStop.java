@@ -8,12 +8,6 @@ public class BusStop {
     public BusStop() {
     }
 
-    public BusStop(String busStopName, String busStopId, String distinctNumber) {
-        this.busStopName = busStopName;
-        this.busStopId = busStopId;
-        this.distinctNumber = distinctNumber;
-    }
-
     public String getBusStopName() {
         return busStopName;
     }

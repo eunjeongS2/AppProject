@@ -31,14 +31,13 @@ class BusStopSearchResultViewHolder extends AbstractViewHolder<BusStop> {
 
     }
 
-
     @Override
     public void onBindView(@NonNull BusStop item, int position) {
         busStopName.setText(item.getBusStopName());
         busStopId.setText(item.getBusStopId());
 
         alarmCheckButton.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(onBusAlarmCheckListener != null) {
+            if (onBusAlarmCheckListener != null) {
                 onBusAlarmCheckListener.onBusStopAlarmChecked(item, position);
             }
         });
