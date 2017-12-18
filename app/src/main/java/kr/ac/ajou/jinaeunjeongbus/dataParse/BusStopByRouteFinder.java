@@ -7,28 +7,40 @@ import org.w3c.dom.NodeList;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
+import kr.ac.ajou.jinaeunjeongbus.alarm.BusStop;
+import kr.ac.ajou.jinaeunjeongbus.alarm.OnBusRequiredTimeLoadListener;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.DownloadRawData;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.FindListener;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.Finder;
+
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.ac.ajou.jinaeunjeongbus.alarm.BusStop;
-import kr.ac.ajou.jinaeunjeongbus.alarm.OnCoordinatesLoadListener;
+import kr.ac.ajou.jinaeunjeongbus.alarm.OnBusRequiredTimeLoadListener;
 import kr.ac.ajou.jinaeunjeongbus.search.OnBusStopLoadListener;
 
+public class BusStopByRouteFinder extends Finder implements FindListener.OnBusStopByRouteFinderListener {
+    private String busId;
+    private OnBusStopLoadListener onBusStopLoadListener;
 
-public class BusStopFinder extends Finder implements FindListener.OnBusStopIdFindListener{
-
-    private static final String SEARCH_BUS_STOP_ID_URL = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByName?ServiceKey=";
+    private static final String SEARCH_LOCATION_URL = "http://ws.bus.go.kr/api/rest/busRouteInfo/getStaionByRoute?serviceKey=";
     private static final String SEOUL_API_KEY = "DD0pwxcJt7QW0EtFlsbEwQ8w2sWJMfADc%2FMBBK1Ju0RQgbWrVRIb4jDTGAzAI0p3kS1KBYwHpULqXZy%2FX%2Fe7RA%3D%3D";
 
 
-    private OnBusStopLoadListener onBusStopLoadListener;
-    private OnCoordinatesLoadListener onCoordinatesLoadListener;
-    private String busStopName;
-
-    public BusStopFinder(OnBusStopLoadListener onBusStopLoadListener, String busStopName) {
+    public BusStopByRouteFinder(OnBusStopLoadListener onBusStopLoadListener, String busId) {
+        this.busId = busId;
         this.onBusStopLoadListener = onBusStopLoadListener;
-        this.busStopName = busStopName;
     }
+
 
     @Override
     public void execute() throws UnsupportedEncodingException {
@@ -37,9 +49,9 @@ public class BusStopFinder extends Finder implements FindListener.OnBusStopIdFin
 
     @Override
     public String createUrl() throws UnsupportedEncodingException {
-        String urlSearchBusStopNumber = URLEncoder.encode(busStopName, "utf-8");
+        String urlSearchBusLocation = URLEncoder.encode(busId, "utf-8");
 
-        return SEARCH_BUS_STOP_ID_URL + SEOUL_API_KEY + "&stSrch=" + urlSearchBusStopNumber;
+        return SEARCH_LOCATION_URL + SEOUL_API_KEY + "&busRouteId=" + urlSearchBusLocation;
     }
 
     @Override
@@ -49,40 +61,38 @@ public class BusStopFinder extends Finder implements FindListener.OnBusStopIdFin
 
         NodeList nodeList = document.getElementsByTagName("itemList");
 
+
         for(int i = 0; i< nodeList.getLength(); i++) {
 
             Node node = nodeList.item(i);
             Element firstElement = (Element) node;
+
             BusStop busStop = new BusStop();
             Address address = new Address();
 
-
-            NodeList busStopIdNode = firstElement.getElementsByTagName("stId");
+            NodeList busStopIdNode = firstElement.getElementsByTagName("station");
             busStop.setBusStopId(busStopIdNode.item(0).getChildNodes().item(0).getNodeValue());
 
-            NodeList busStopNameNode = firstElement.getElementsByTagName("stNm");
+            NodeList busStopNameNode = firstElement.getElementsByTagName("stationNm");
             busStop.setBusStopName(busStopNameNode.item(0).getChildNodes().item(0).getNodeValue());
             address.setAddressName(busStopNameNode.item(0).getChildNodes().item(0).getNodeValue());
 
-            NodeList busStopDistinctNumberNode = firstElement.getElementsByTagName("arsId");
-            busStop.setDistinctNumber(busStopDistinctNumberNode.item(0).getChildNodes().item(0).getNodeValue());
-
-            NodeList busStopLongitudeNode = firstElement.getElementsByTagName("tmX");
+            NodeList busStopLongitudeNode = firstElement.getElementsByTagName("gpsX");
             address.setAddressLongitude(busStopLongitudeNode.item(0).getChildNodes().item(0).getNodeValue());
 
-            NodeList busStopLatitudeNode = firstElement.getElementsByTagName("tmY");
+            NodeList busStopLatitudeNode = firstElement.getElementsByTagName("gpsY");
             address.setAddressLatitude(busStopLatitudeNode.item(0).getChildNodes().item(0).getNodeValue());
-
 
             busStops.add(busStop);
             addresses.add(address);
-
-
-
         }
+
 
         onBusStopLoadListener.onBusStopSearchComplete(busStops);
         onBusStopLoadListener.onBusStopCoordinatesLoad(addresses);
 
     }
+
 }
+
+

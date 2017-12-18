@@ -29,6 +29,7 @@ import kr.ac.ajou.jinaeunjeongbus.R;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.Address;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusIdFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusRequiredTimeFinder;
+import kr.ac.ajou.jinaeunjeongbus.dataParse.BusStopByRouteFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.BusStopFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.CoordinatesFinder;
 import kr.ac.ajou.jinaeunjeongbus.dataParse.WalkRequiredTimeFinder;
@@ -83,7 +84,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
     private String[] busStrings;
     private String[] departureBusStopStrings;
-    private String[] destinationBusStopStrings;
 
     private List<Bus> busList;
     private Bus bus;
@@ -180,7 +180,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
         busStrings = new String[]{};
         departureBusStopStrings = new String[]{};
-        destinationBusStopStrings = new String[]{};
 
         if (curAlarm != null) {
 
@@ -230,11 +229,11 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         });
 
         getDepartureStopButton.setOnClickListener(v ->{
-            try {
-                new BusStopFinder(this, String.valueOf(departureStopEditText.getText())).execute();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                new BusStopFinder(this, String.valueOf(departureStopEditText.getText())).execute();
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
 
         });
 
@@ -284,24 +283,24 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
 
         getDestinationStopButton.setOnClickListener(v->{
-            try {
-                new BusStopFinder(this, String.valueOf(destinationStopEditText.getText())).execute();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                new BusStopFinder(this, String.valueOf(destinationStopEditText.getText())).execute();
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
         });
 
         destinationStopEditText.setOnClickListener(v ->{
             ArrayAdapter<String> departureAdapter = new ArrayAdapter<>(
                     getActivity(),
                     support_simple_spinner_dropdown_item,
-                    destinationBusStopStrings
+                    departureBusStopStrings
             );
-            if(destinationBusStopStrings.length != 0){
+            if(departureBusStopStrings.length != 0){
                 destinationStopEditText.setAdapter(departureAdapter);
                 destinationStopEditText.showDropDown();
             }else
-                destinationBusStopStrings = new String[]{"검색결과가 없습니다"};
+                departureBusStopStrings = new String[]{"검색결과가 없습니다"};
         });
 
         destinationStopEditText.setOnItemClickListener((adapterView, view12, i, l) -> {
@@ -348,7 +347,14 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
                     curAlarm.setBusName(bus.getNumber());
                     curAlarm.setBusId(bus.getId());
                 }
+
+                try {
+                    new BusStopByRouteFinder(this, bus.getId()).execute();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
+
         });
 
         getBusButton.setOnClickListener(v ->{
@@ -481,7 +487,7 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         if(bus.getNumber() != null && departureBusStop.getBusStopId() != null && destinationBusStop.getBusStopId()!= null) {
             try {
 //                new BusRequiredTimeFinder(this, bus.getNumber(), departureBusStop.getBusStopId(), destinationBusStop.getBusStopId()).execute();
-                new BusRequiredTimeFinder(this, bus.getId(), "228001174", "203000125").execute();
+                new BusRequiredTimeFinder(this, bus.getId(), departureBusStop.getBusStopId(), destinationBusStop.getBusStopId()).execute();
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -540,13 +546,17 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             strings[i] = searchResult.get(i).getBusStopName()+"("+searchResult.get(i).getBusStopId()+")";
         }
 
-        if(searchResult.get(0).getBusStopName().contains(departureStopEditText.getText())){
-            departureBusStopStrings = strings;
-            departureBusStops = searchResult;
-        }else if(searchResult.get(0).getBusStopName().contains(destinationStopEditText.getText())){
-            destinationBusStopStrings = strings;
-            destinationBusStops = searchResult;
-        }
+        departureBusStopStrings = strings;
+        departureBusStops = searchResult;
+        destinationBusStops = searchResult;
+
+//        if(searchResult.get(0).getBusStopName().contains(departureStopEditText.getText())){
+//            departureBusStopStrings = strings;
+//            departureBusStops = searchResult;
+//        }else if(searchResult.get(0).getBusStopName().contains(destinationStopEditText.getText())){
+//            destinationBusStopStrings = strings;
+//            destinationBusStops = searchResult;
+//        }
 
     }
 
@@ -555,12 +565,15 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         if(addressList.size()==0){
             return;
         }
+        departureBusStopAddresses = addressList;
+        destinationBusStopAddresses = addressList;
 
-        if(addressList.get(0).getAddressName().contains(String.valueOf(departureStopEditText.getText()))){
-            departureBusStopAddresses = addressList;
-        }else if(addressList.get(0).getAddressName().contains(String.valueOf(destinationStopEditText.getText()))){
-            destinationBusStopAddresses = addressList;
-        }
+
+//        if(addressList.get(0).getAddressName().contains(String.valueOf(departureStopEditText.getText()))){
+//            departureBusStopAddresses = addressList;
+//        }else if(addressList.get(0).getAddressName().contains(String.valueOf(destinationStopEditText.getText()))){
+//            destinationBusStopAddresses = addressList;
+//        }
 
     }
 

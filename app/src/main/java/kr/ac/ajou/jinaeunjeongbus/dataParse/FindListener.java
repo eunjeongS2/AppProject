@@ -28,4 +28,8 @@ public interface FindListener {
         void parseXML(Document document);
     }
 
+    interface OnBusStopByRouteFinderListener {
+        void parseXML(Document document);
+    }
+
 }
