@@ -133,8 +133,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
         TextView getDepartureButton = view.findViewById(R.id.search_departure_btn);
         TextView getDestinationButton = view.findViewById(R.id.search_destination_btn);
-        TextView getDepartureStopButton = view.findViewById(R.id.search_departure_stop_btn);
-        TextView getDestinationStopButton = view.findViewById(R.id.search_destination_stop_btn);
         TextView getBusButton = view.findViewById(R.id.search_bus_btn);
 
 
@@ -228,15 +226,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
             }
         });
 
-        getDepartureStopButton.setOnClickListener(v ->{
-//            try {
-//                new BusStopFinder(this, String.valueOf(departureStopEditText.getText())).execute();
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
-
-        });
-
         departureStopEditText.setOnClickListener(v ->{
             ArrayAdapter<String> departureAdapter = new ArrayAdapter<>(
                     getActivity(),
@@ -281,14 +270,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
 
         });
 
-
-        getDestinationStopButton.setOnClickListener(v->{
-//            try {
-//                new BusStopFinder(this, String.valueOf(destinationStopEditText.getText())).execute();
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
-        });
 
         destinationStopEditText.setOnClickListener(v ->{
             ArrayAdapter<String> departureAdapter = new ArrayAdapter<>(
@@ -486,7 +467,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
     private void computeBusRequiredTime(){
         if(bus.getNumber() != null && departureBusStop.getBusStopId() != null && destinationBusStop.getBusStopId()!= null) {
             try {
-//                new BusRequiredTimeFinder(this, bus.getNumber(), departureBusStop.getBusStopId(), destinationBusStop.getBusStopId()).execute();
                 new BusRequiredTimeFinder(this, bus.getId(), departureBusStop.getBusStopId(), destinationBusStop.getBusStopId()).execute();
 
             } catch (UnsupportedEncodingException e) {

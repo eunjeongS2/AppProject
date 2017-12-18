@@ -162,20 +162,8 @@
             android:layout_marginLeft="5dp"
             android:textSize="14sp"
             android:textColor="@android:color/black"
-            android:hint="출발 정류소 검색"
+            android:hint="방향을 잘 확인해주세요 !"
             />
-
-        <TextView
-            android:id="@+id/search_departure_stop_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:text="검색"/>
 
     </RelativeLayout>
 
@@ -239,22 +227,8 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="@android:color/black"
-            android:hint="도착 정류소 검색"
+            android:hint="방향을 잘 확인해주세요 !"
             />
-
-        <TextView
-            android:id="@+id/search_destination_stop_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:text="검색"/>
-
-
 
     </RelativeLayout>
 
