@@ -134,9 +134,6 @@ public class AddAlarmDialogFragment extends DialogFragment implements OnCoordina
         TextView getDestinationButton = view.findViewById(R.id.search_destination_btn);
         TextView getBusButton = view.findViewById(R.id.search_bus_btn);
 
-
-        departureStopEditText.setText("신논현역");
-        destinationStopEditText.setText("강남역");
         departurePlaceEditText.setText("서울특별시 강남구 역삼동");
         destinationPlaceEditText.setText("서울특별시 서초구 서초4동 1309-10");
         alarmHour = view.findViewById(R.id.hour_editText);

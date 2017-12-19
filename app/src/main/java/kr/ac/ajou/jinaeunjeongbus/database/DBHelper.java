@@ -15,7 +15,7 @@ import kr.ac.ajou.jinaeunjeongbus.alarm.Alarm;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "BUS_ALARM_15_DB";
+    private static final String DATABASE_NAME = "BUS_ALARM_20_DB";
     private static final int DATABASE_VERSION = 1;
 
     public DBHelper(Context context) {
